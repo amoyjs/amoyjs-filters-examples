@@ -10,7 +10,8 @@ const manifest = [
     { name: 'intro', url: 'assets/xiaoHongMao_intro.jpg' },
     { name: 'page1', url: 'assets/xiaoJinGang_page1.jpg' },
     { name: 'gameboy', url: 'assets/gameboy.jpeg' },
-    { name: 'snow', url: 'assets/snow.jpg' }
+    { name: 'snow', url: 'assets/snow.jpg' },
+    { name: 'rain', url: 'assets/rainny.jpeg' }
 ];
 
 
