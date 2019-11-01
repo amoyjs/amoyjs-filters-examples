@@ -1,4 +1,4 @@
 # examples for @amoy/filters
 
-##examples
-![snow](./shotcut-snow.png)
+## examples
+![ snow screenshot] (shotcut-snow.png)
