@@ -28,10 +28,10 @@ export default class PageCurlExample {
         let w = intro.width;
         let h = intro.height;
 
-        let nextPageTexture = PIXI.Texture.from(app.resources.page1.texture.baseTexture);
-        nextPageTexture.frame = new PIXI.Rectangle(this.app.contentOffsetX, 0 , this.app.viewW, this.app.viewH);
+        // let nextPageTexture = PIXI.Texture.from(app.resources.page1.texture);
+        // nextPageTexture.frame = new PIXI.Rectangle(this.app.contentOffsetX, 0 , this.app.viewW, this.app.viewH);
 
-        let filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, nextPageTexture, 0.05)
+        let filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, app.resources.page1.texture, 0.05)
         
         intro.filters =[filter]
 

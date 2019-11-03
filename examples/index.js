@@ -8667,10 +8667,10 @@
         var w = intro.width;
         var h = intro.height;
 
-        var nextPageTexture = PIXI.Texture.from(app.resources.page1.texture.baseTexture);
-        nextPageTexture.frame = new PIXI.Rectangle(this.app.contentOffsetX, 0 , this.app.viewW, this.app.viewH);
+        // let nextPageTexture = PIXI.Texture.from(app.resources.page1.texture);
+        // nextPageTexture.frame = new PIXI.Rectangle(this.app.contentOffsetX, 0 , this.app.viewW, this.app.viewH);
 
-        var filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, nextPageTexture, 0.05);
+        var filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, app.resources.page1.texture, 0.05);
             
         intro.filters =[filter];
 
