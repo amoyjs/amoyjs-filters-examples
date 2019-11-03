@@ -10,35 +10,35 @@ export default class PageCurlExample {
         this.app.example = this;
         
         let scene = new PIXI.Container();
+        scene.x = this.app.contentOffsetX;
 
         let pageContainer = new PIXI.Container()
 
         let intro = PIXI.Sprite.from(app.resources.intro.texture)
-        intro.scale.set(.6)
         pageContainer.addChild(intro)
-        
         
         let nextPageContainer = new PIXI.Container()
         let page1 = PIXI.Sprite.from(app.resources.page1.texture)
-        page1.scale.set(.6)
 
         nextPageContainer.addChild(page1)
 
         scene.addChild(nextPageContainer)
         scene.addChild(pageContainer)
-    
-        let filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, page1.texture, 0.05)
-        intro.filters =[filter]
 
         let w = intro.width;
         let h = intro.height;
+
+        let nextPageTexture = PIXI.Texture.from(app.resources.page1.texture.baseTexture);
+        nextPageTexture.frame = new PIXI.Rectangle(this.app.contentOffsetX, 0 , this.app.viewW, this.app.viewH);
+
+        let filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, nextPageTexture, 0.05)
+        
+        intro.filters =[filter]
 
         this.scene = scene;
         this.filter = filter;
 
         app.stage.addChild(this.scene);
-        app.renderer.resize(w, h);
-        app.setAppViewAndRender(w,h);
 
         let midW = w/2
         let midH = h/2
@@ -86,6 +86,7 @@ export default class PageCurlExample {
             if(!Boolean(this.data)){
                 return;
             }
+            filter.uniforms.filterArea = new PIXI.Rectangle(250, 50, w-250, h-150);
             const newPosition = this.data.getLocalPosition(this.parent)
             filter.posx = newPosition.x
             filter.posy = newPosition.y

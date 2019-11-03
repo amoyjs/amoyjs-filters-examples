@@ -5,6 +5,4 @@ lib
 *.log
 docs
 dist
-examples/index.js
-examples/index.js.map
 .DS_Store
