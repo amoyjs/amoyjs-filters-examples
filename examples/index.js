@@ -20,15 +20,17 @@
             var initHeight = domElement.offsetHeight;
 
             // Get the initial dementions for the application
-            var canvas = document.querySelector('#container');
+            var canvas = document.querySelector('#stage');
             var canvasWidth = canvas.offsetWidth;
             var canvasHeight = canvas.offsetHeight;
 
-            var designW = 1792;
-            var desginH = 828;
+            var designW = canvasWidth;
+            var desginH = canvasHeight;
 
             var viewW = desginH*canvasWidth/canvasHeight;
             var viewH = desginH;
+
+            this.contentOffsetX = (viewW - designW)/2;
 
             Application.call(this, {
                 view: document.querySelector('#stage'),
@@ -39,7 +41,6 @@
                 backgroundColor:0x000000,
             });
 
-            this.contentOffsetX = (viewW - designW)/2;
 
             PIXI.settings.PRECISION_FRAGMENT = 'highp';
 
@@ -139,8 +140,8 @@
          */
         ExampleApplication.prototype.setAppViewAndRender = function setAppViewAndRender (w, h) {
             var stage =  document.querySelector('#stage');
-            // stage.style.width = 800;
-            // stage.style.height = 600;
+            stage.style.width = w + 'px';
+            stage.style.height = h + 'px';
             this.render();
         };
 
@@ -8647,6 +8648,20 @@
     var PageCurlExample = function PageCurlExample(app){
         this.app = app;
         this.app.example = this;
+
+        var canvasWidth = 1024;
+        var canvasHeight = 768;
+
+        var designW = 1792;
+        var desginH = 828;
+
+        var viewW = desginH*canvasWidth/canvasHeight;
+        var viewH = desginH;
+
+        this.app.viewH = viewH;
+        this.app.viewW = viewW;
+
+        this.app.contentOffsetX = (viewW - designW)/2;
             
         var scene = new PIXI.Container();
         scene.x = this.app.contentOffsetX;
@@ -8664,13 +8679,14 @@
         scene.addChild(nextPageContainer);
         scene.addChild(pageContainer);
 
-        var w = intro.width;
-        var h = intro.height;
+        var w = this.app.viewW;
+        var h = this.app.viewH;
 
-        // let nextPageTexture = PIXI.Texture.from(app.resources.page1.texture);
-        // nextPageTexture.frame = new PIXI.Rectangle(this.app.contentOffsetX, 0 , this.app.viewW, this.app.viewH);
+        var nextPageTexture = new  PIXI.Texture(page1.texture, new PIXI.Rectangle(0-this.app.contentOffsetX, 0 , this.app.viewW, this.app.viewH));
+        var page2 = PIXI.Sprite.from(nextPageTexture);
+            
 
-        var filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, app.resources.page1.texture, 0.05);
+        var filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, app.renderer.generateTexture(page2), 0.05);
             
         intro.filters =[filter];
 
@@ -8679,13 +8695,16 @@
 
         app.stage.addChild(this.scene);
 
+        app.renderer.resize(w, h);
+        app.setAppViewAndRender(canvasWidth,canvasHeight);
+            
         var midW = w/2;
         var midH = h/2;
         
         function onDragStart(event) {
             console.log("onDragStart");
             this.data = event.data;
-            var newPosition = this.data.getLocalPosition(this.parent);
+            var newPosition = this.data.global;
             filter.startPosx = newPosition.x;
             filter.startPosy = newPosition.y;
             filter.radius = 0.04;
@@ -8713,8 +8732,7 @@
             if(!Boolean(this.data)){
                 return;
             }
-            filter.uniforms.filterArea = new PIXI.Rectangle(250, 50, w-250, h-150);
-            var newPosition = this.data.getLocalPosition(this.parent);
+            var newPosition = this.data.global;
             filter.posx = newPosition.x;
             filter.posy = newPosition.y;
             console.log("onDragMove");
@@ -8722,8 +8740,8 @@
             console.log(filter.posy);
         }
 
-        intro.interactive = true;
-        intro.on("pointerdown", onDragStart)
+        pageContainer.interactive = true;
+        pageContainer.on("pointerdown", onDragStart)
         .on('pointerup', onDragEnd)
         .on('pointermove', onDragMove);
     };

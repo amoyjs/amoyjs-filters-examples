@@ -28,15 +28,17 @@ export default class ExampleApplication extends Application {
         const initHeight = domElement.offsetHeight;
 
         // Get the initial dementions for the application
-        const canvas = document.querySelector('#container');
+        const canvas = document.querySelector('#stage');
         const canvasWidth = canvas.offsetWidth;
         const canvasHeight = canvas.offsetHeight;
 
-        let designW = 1792;
-        let desginH = 828;
+        let designW = canvasWidth;
+        let desginH = canvasHeight;
 
         let viewW = desginH*canvasWidth/canvasHeight;
         let viewH = desginH;
+
+        this.contentOffsetX = (viewW - designW)/2;
 
         super({
             view: document.querySelector('#stage'),
@@ -47,7 +49,6 @@ export default class ExampleApplication extends Application {
             backgroundColor:0x000000,
         });
 
-        this.contentOffsetX = (viewW - designW)/2;
 
         settings.PRECISION_FRAGMENT = 'highp';
 
@@ -138,8 +139,8 @@ export default class ExampleApplication extends Application {
      */
     setAppViewAndRender(w, h) {
         let stage =  document.querySelector('#stage');
-        // stage.style.width = 800;
-        // stage.style.height = 600;
+        stage.style.width = w + 'px';
+        stage.style.height = h + 'px';
         this.render();
     }
 

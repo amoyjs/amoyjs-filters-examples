@@ -8,6 +8,20 @@ export default class PageCurlExample {
     constructor(app){
         this.app = app
         this.app.example = this;
+
+        const canvasWidth = 1024;
+        const canvasHeight = 768;
+
+        let designW = 1792;
+        let desginH = 828;
+
+        let viewW = desginH*canvasWidth/canvasHeight;
+        let viewH = desginH;
+
+        this.app.viewH = viewH;
+        this.app.viewW = viewW;
+
+        this.app.contentOffsetX = (viewW - designW)/2;
         
         let scene = new PIXI.Container();
         scene.x = this.app.contentOffsetX;
@@ -25,13 +39,14 @@ export default class PageCurlExample {
         scene.addChild(nextPageContainer)
         scene.addChild(pageContainer)
 
-        let w = intro.width;
-        let h = intro.height;
+        let w = this.app.viewW;
+        let h = this.app.viewH;
 
-        // let nextPageTexture = PIXI.Texture.from(app.resources.page1.texture);
-        // nextPageTexture.frame = new PIXI.Rectangle(this.app.contentOffsetX, 0 , this.app.viewW, this.app.viewH);
+        let nextPageTexture = new  PIXI.Texture(page1.texture, new PIXI.Rectangle(0-this.app.contentOffsetX, 0 , this.app.viewW, this.app.viewH));
+        let page2 = PIXI.Sprite.from(nextPageTexture);
+        
 
-        let filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, app.resources.page1.texture, 0.05)
+        let filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, app.renderer.generateTexture(page2), 0.05)
         
         intro.filters =[filter]
 
@@ -40,6 +55,9 @@ export default class PageCurlExample {
 
         app.stage.addChild(this.scene);
 
+        app.renderer.resize(w, h);
+        app.setAppViewAndRender(canvasWidth,canvasHeight);
+        
         let midW = w/2
         let midH = h/2
 
@@ -58,7 +76,7 @@ export default class PageCurlExample {
         function onDragStart(event) {
             console.log("onDragStart")
             this.data = event.data
-            const newPosition = this.data.getLocalPosition(this.parent)
+            const newPosition = this.data.global
             filter.startPosx = newPosition.x
             filter.startPosy = newPosition.y
             filter.radius = 0.04;
@@ -86,8 +104,7 @@ export default class PageCurlExample {
             if(!Boolean(this.data)){
                 return;
             }
-            filter.uniforms.filterArea = new PIXI.Rectangle(250, 50, w-250, h-150);
-            const newPosition = this.data.getLocalPosition(this.parent)
+            const newPosition = this.data.global
             filter.posx = newPosition.x
             filter.posy = newPosition.y
             console.log("onDragMove")
@@ -95,8 +112,8 @@ export default class PageCurlExample {
             console.log(filter.posy)
         }
 
-        intro.interactive = true
-        intro.on("pointerdown", onDragStart)
+        pageContainer.interactive = true
+        pageContainer.on("pointerdown", onDragStart)
         .on('pointerup', onDragEnd)
         .on('pointermove', onDragMove)
     }
