@@ -8649,23 +8649,8 @@
         this.app = app;
         this.app.example = this;
 
-        var canvasWidth = 1024;
-        var canvasHeight = 768;
-
-        var designW = 1792;
-        var desginH = 828;
-
-        var viewW = desginH*canvasWidth/canvasHeight;
-        var viewH = desginH;
-
-        this.app.viewH = viewH;
-        this.app.viewW = viewW;
-
-        this.app.contentOffsetX = (viewW - designW)/2;
-            
         var scene = new PIXI.Container();
-        scene.x = this.app.contentOffsetX;
-
+        
         var pageContainer = new PIXI.Container();
 
         var intro = PIXI.Sprite.from(app.resources.intro.texture);
@@ -8679,14 +8664,30 @@
         scene.addChild(nextPageContainer);
         scene.addChild(pageContainer);
 
+        var canvasWidth = 1024;
+        var canvasHeight = 768;
+
+        var designW = intro.width;
+        var desginH = intro.height;
+
+        var viewW = desginH*canvasWidth/canvasHeight;
+        var viewH = desginH;
+
+        this.app.viewH = viewH;
+        this.app.viewW = viewW;
+
+        this.app.contentOffsetX = (viewW - designW)/2;
+
+        scene.x = this.app.contentOffsetX;
+
         var w = this.app.viewW;
         var h = this.app.viewH;
 
         var nextPageTexture = new  PIXI.Texture(page1.texture, new PIXI.Rectangle(0-this.app.contentOffsetX, 0 , this.app.viewW, this.app.viewH));
         var page2 = PIXI.Sprite.from(nextPageTexture);
-            
+        var newTexture = app.renderer.generateTexture(page2);
 
-        var filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, app.renderer.generateTexture(page2), 0.05);
+        var filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, newTexture, 0.05);
             
         intro.filters =[filter];
 

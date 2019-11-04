@@ -9,23 +9,8 @@ export default class PageCurlExample {
         this.app = app
         this.app.example = this;
 
-        const canvasWidth = 1024;
-        const canvasHeight = 768;
-
-        let designW = 1792;
-        let desginH = 828;
-
-        let viewW = desginH*canvasWidth/canvasHeight;
-        let viewH = desginH;
-
-        this.app.viewH = viewH;
-        this.app.viewW = viewW;
-
-        this.app.contentOffsetX = (viewW - designW)/2;
-        
         let scene = new PIXI.Container();
-        scene.x = this.app.contentOffsetX;
-
+    
         let pageContainer = new PIXI.Container()
 
         let intro = PIXI.Sprite.from(app.resources.intro.texture)
@@ -39,14 +24,30 @@ export default class PageCurlExample {
         scene.addChild(nextPageContainer)
         scene.addChild(pageContainer)
 
+        const canvasWidth = 1024;
+        const canvasHeight = 768;
+
+        let designW = intro.width;
+        let desginH = intro.height;
+
+        let viewW = desginH*canvasWidth/canvasHeight;
+        let viewH = desginH;
+
+        this.app.viewH = viewH;
+        this.app.viewW = viewW;
+
+        this.app.contentOffsetX = (viewW - designW)/2;
+
+        scene.x = this.app.contentOffsetX;
+
         let w = this.app.viewW;
         let h = this.app.viewH;
 
         let nextPageTexture = new  PIXI.Texture(page1.texture, new PIXI.Rectangle(0-this.app.contentOffsetX, 0 , this.app.viewW, this.app.viewH));
         let page2 = PIXI.Sprite.from(nextPageTexture);
-        
+        let newTexture = app.renderer.generateTexture(page2);
 
-        let filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, app.renderer.generateTexture(page2), 0.05)
+        let filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, newTexture, 0.05)
         
         intro.filters =[filter]
 
