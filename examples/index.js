@@ -3,6 +3,18 @@
 
     var EventEmitter = PIXI.utils.EventEmitter;
 
+    // patch dat.GUI removeFolder function
+    dat.GUI.prototype.removeFolder = function(name) {
+        var folder = this.__folders[name];
+        if (!folder) {
+            return;
+        }
+        folder.close();
+        this.__ul.removeChild(folder.domElement.parentNode);
+        delete this.__folders[name];
+        this.onResize();
+    };
+
     /*global dat,ga*/
     /**
      * Demo show a bunch of fish and a dat.gui controls
@@ -89,15 +101,16 @@
         ExampleApplication.prototype.changeExample = function changeExample (name){
             var this$1 = this;
 
-            if(this.example){
-                this.destroyCurrentExample();
-            }
 
             if(this.exampleParamsFolderGui){
-                this.gui.removeFolder(this.exampleParamsFolderGui);
+                this.gui.removeFolder("Params");
                 this.exampleParamsFolderGui=null;
             }
 
+            if(this.example){
+                this.destroyCurrentExample();
+            }
+            
             this.examples.forEach(function (element) {
                 if(element.name == name){
                     this$1.example = new element(this$1);
@@ -171,32 +184,133 @@
     }(PIXI.Application));
 
     /*!
-     * @amoy/filter-page-curl - v2.0.0
-     * Compiled Mon, 28 Oct 2019 10:13:33 UTC
+     * @amoy/filter-lens-halo - v3.0.8
+     * Compiled Tue, 05 Nov 2019 08:11:42 UTC
      *
-     * @amoy/filter-page-curl is licensed under the MIT License.
+     * @amoy/filter-lens-halo is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
      */
 
     var vertex = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
 
-    var fragment = "varying vec2 vTextureCoord;//passed from vect shader \n\nuniform sampler2D uSampler;// 2d texture\nuniform sampler2D nextPageTexture;// 2d texture\n\nuniform vec4 filterArea;\n\nuniform float uPosx;\nuniform float uPosy;\nuniform float uStartPosx;\nuniform float uStartPosy;\nuniform float uRadius;\n\n\n#define pi 3.14159265359\n//#define uRadius .04\n\n#define iResolution filterArea\n#define iTime uTime\n#define fragColor gl_FragColor\n#define texture texture2D\n\nvoid main(void)\n{\n\tfloat aspect=iResolution.x/iResolution.y;\n\t\n\tvec2 uv=vTextureCoord*filterArea.xy*vec2(aspect,1.)/iResolution.xy;\n\t\n\tvec4 virtualMouse=vec4(uPosx,uPosy,uStartPosx,uStartPosy);\n\tfloat radius = uRadius;\n\tvec2 mouse=virtualMouse.xy*vec2(aspect,1.)/iResolution.xy;\n\tvec2 mouseDir=normalize(abs(virtualMouse.zw)-virtualMouse.xy);\n\tvec2 origin=clamp(mouse-mouseDir*mouse.x/mouseDir.x,0.,1.);\n\t\n\tfloat mouseDist=clamp(length(mouse-origin)+(aspect-(abs(virtualMouse.z)/iResolution.x)*aspect)/mouseDir.x,0.,aspect/mouseDir.x);\n\t\n\tif(mouseDir.x<0.)\n\t{\n\t\tmouseDist=distance(mouse,origin);\n\t}\n\t\n\tfloat proj=dot(uv-origin,mouseDir);\n\tfloat dist=proj-mouseDist;\n\t\n\tvec2 linePoint=uv-dist*mouseDir;\n\t\n\tif(dist>radius)\n\t{\n\t\t//下一页面\n\t\tfragColor=texture(nextPageTexture,uv*vec2(1./aspect,1.));\n\t\tfragColor.rgb*= clamp(min(1.0, .5 + 1. - uRadius/.04), 1.0, pow(clamp((dist-radius)*4.0,0.,1.),.2));\n\t}\n\telse if(dist>=0.)\n\t{\n\t\t// 圆柱面点映射\n\t\tfloat theta=asin(dist/radius);\n\t\tvec2 p2=linePoint+mouseDir*(pi-theta)*radius;\n\t\tvec2 p1=linePoint+mouseDir*theta*radius;\n\t\tif(p2.x<=aspect&&p2.y<=1.&&p2.x>0.&&p2.y>0.){\n\t\t\tuv = p2;\n\t\t\t//背面页 圆柱面\n\t\t\tuv = (1.0 - uv*vec2(1./aspect,1.));\n\t\t\tuv.y = 1.0 - uv.y;\n\t\t\tfragColor = texture(nextPageTexture, uv);\n\t\t\tfragColor.rgb*=clamp(min(1.0, .6 + 1. - uRadius/.04), 1.0, pow(clamp((radius-dist)/radius,0.,1.), .5));\n\t\t\tfragColor.a = 1.;\n\t\t}else{\n\t\t\t//corer 圆角\n\t\t\tuv = p1;\n\t\t\tfragColor = texture(uSampler, uv * vec2(1. / aspect, 1.));\n\t\t\tfragColor.rgb*=clamp(.95, 1.0, pow(clamp((radius-dist)/radius,0.,1.),1.));\n\t\t}\n\t}\n\telse\n\t{\n\t\tvec2 p=linePoint+mouseDir*(abs(dist)+pi*radius);\n\t\tif(p.x<=aspect&&p.y<=1.&&p.x>0.&&p.y>0.&&length(mouseDir)>0.){\n\t\t\tuv = p ;\n\t\t\t// 背面页平面区域\n\t\t\tuv = (1.0 - uv*vec2(1./aspect,1.));\n\t\t\tuv.y = 1.0 - uv.y;\n\t\t\tfragColor=texture(nextPageTexture,uv);\n\t\t\tfragColor.a = 1.;\n\t\t}else{\n\t\t\t// 正面页面\n\t\t\tfragColor=texture(uSampler,uv*vec2(1./aspect,1.));\n\t\t}\n\t\t\n\t}\n}";
+    var fragment = "varying vec2 vTextureCoord;//passed from vect shader\nuniform sampler2D uSampler;// 2d texture\nuniform vec4 filterArea;\n\nuniform float uPosx;\nuniform float uPosy;\nuniform float uTime;\n\nfloat noise(float t)\n{\n\treturn texture2D(uSampler,vec2(t,0.)/filterArea.xy).x;\n}\n\nfloat noise(vec2 t)\n{\n\treturn texture2D(uSampler,(t+vec2(uTime))/filterArea.xy).x;\n}\n\nvec3 lenshalo(vec2 uv,vec2 pos)\n{\n\tvec2 m=uv-pos;\n\tvec2 uvd=uv*(length(uv));\n\t\n\tfloat ang=atan(m.y,m.x);\n\tfloat dist=length(m);dist=pow(dist,.1);\n\tfloat n=noise(vec2((ang-uTime/9.)*16.,dist*32.));\n\t\n\tfloat f0=1./(length(uv-pos)*16.+1.);\n\t\n\tf0=f0+f0*(sin((ang+uTime/18.+noise(abs(ang)+n/2.)*2.)*12.)*.1+dist*.1+.8);\n\t\n\tfloat f2=max(1./(1.+32.*pow(length(uvd+.8*pos),2.)),.0)*.25;\n\tfloat f22=max(1./(1.+32.*pow(length(uvd+.85*pos),2.)),.0)*.23;\n\tfloat f23=max(1./(1.+32.*pow(length(uvd+.9*pos),2.)),.0)*.21;\n\t\n\tvec2 uvx=mix(uv,uvd,-.5);\n\t\n\tfloat f4=max(.01-pow(length(uvx+.4*pos),2.4),.0)*6.;\n\tfloat f42=max(.01-pow(length(uvx+.45*pos),2.4),.0)*5.;\n\tfloat f43=max(.01-pow(length(uvx+.5*pos),2.4),.0)*3.;\n\t\n\tuvx=mix(uv,uvd,-.4);\n\t\n\tfloat f5=max(.01-pow(length(uvx+.2*pos),5.5),.0)*2.;\n\tfloat f52=max(.01-pow(length(uvx+.4*pos),5.5),.0)*2.;\n\tfloat f53=max(.01-pow(length(uvx+.6*pos),5.5),.0)*2.;\n\t\n\tuvx=mix(uv,uvd,-.5);\n\t\n\tfloat f6=max(.01-pow(length(uvx-.3*pos),1.6),.0)*6.;\n\tfloat f62=max(.01-pow(length(uvx-.325*pos),1.6),.0)*3.;\n\tfloat f63=max(.01-pow(length(uvx-.35*pos),1.6),.0)*5.;\n\t\n\tvec3 c=vec3(.0);\n\t\n\tc.r+=f2+f4+f5+f6;c.g+=f22+f42+f52+f62;c.b+=f23+f43+f53+f63;\n\tc+=vec3(f0);\n\t\n\treturn c;\n}\n\nvec3 cc(vec3 color,float factor,float factor2)// color modifier\n{\n\tfloat w=color.x+color.y+color.z;\n\treturn mix(color,vec3(w)*factor,w*factor2);\n}\n\nvoid main(void)\n{\n\tvec2 uv=vTextureCoord.xy-.5;\n\t\n\tuv.x*=filterArea.x/filterArea.y;//fix aspect ratio\n\t\n\tvec3 mouse=vec3(vec2(uPosx,uPosy).xy/filterArea.xy-.5,0.);\n\t\n\tmouse.x*=filterArea.x/filterArea.y;//fix aspect ratio\n\t\n\tvec3 color=vec3(1.4,1.2,1.)*lenshalo(uv,mouse.xy);\n\t\n\tcolor=cc(color,.5,.1);\n\t\n\tgl_FragColor=vec4(color,1.)+texture2D(uSampler,vTextureCoord);\n}";
 
     /**
+     * The AmoyInnerOutlineFilter applies the effect to an object.<br>
+     * ![original](../tools/screenshots/dist/original.png)![filter](../tools/screenshots/dist/AmoyLensHaloFilter.gif)
+     *
      * @class
+     * @see {@link https://www.npmjs.com/package/@amoy/filter-lens-halo}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters}
      * @extends PIXI.Filter
      * @memberof AMOY.filters
      */
 
+    var AmoyLensHaloFilter = /*@__PURE__*/(function (Filter) {
+        function AmoyLensHaloFilter(posx, posy, delta) {
+            if ( posx === void 0 ) { posx = 10.0; }
+            if ( posy === void 0 ) { posy = 10.0; }
+            if ( delta === void 0 ) { delta = 0.0; }
+
+            Filter.call(this, vertex, fragment);
+            // sub class
+            this.posx = posx;
+            this.posy = posy;
+            this.delta = delta;
+        }
+
+        if ( Filter ) { AmoyLensHaloFilter.__proto__ = Filter; }
+        AmoyLensHaloFilter.prototype = Object.create( Filter && Filter.prototype );
+        AmoyLensHaloFilter.prototype.constructor = AmoyLensHaloFilter;
+
+        var prototypeAccessors = { posx: { configurable: true },posy: { configurable: true },delta: { configurable: true } };
+
+        /**
+         * Override existing apply method in PIXI.Filter
+         * @private
+         */
+        AmoyLensHaloFilter.prototype.apply = function apply (filterManager, input, output, clear) {
+            this.uniforms.uPosx = this.posx <= 0 ? 10.0 : this.posx;
+            this.uniforms.uPosy = this.posy <= 0 ? 10.0 : this.posy;
+            this.uniforms.uTime = this.delta <= 0 ? 2.0 : this.delta;
+            filterManager.applyFilter(this, input, output, clear);
+        };
+
+        /**
+         * current x
+         */
+        prototypeAccessors.posx.get = function () {
+            return this.uniforms.uPosx;
+        };
+
+        prototypeAccessors.posx.set = function (value) {
+            this.uniforms.uPosx = value;
+        };
+
+        /**
+         * current y
+         */
+        prototypeAccessors.posy.get = function () {
+            return this.uniforms.uPosy;
+        };
+
+        prototypeAccessors.posy.set = function (value) {
+            this.uniforms.uPosy = value;
+        };
+
+        /**
+         * time for animation
+         *
+         * @member {number}
+         * @default 0.0
+         */
+        prototypeAccessors.delta.get = function () {
+            return this.uniforms.uTime;
+        };
+
+        prototypeAccessors.delta.set = function (value) {
+            this.uniforms.uTime = value;
+        };
+
+        Object.defineProperties( AmoyLensHaloFilter.prototype, prototypeAccessors );
+
+        return AmoyLensHaloFilter;
+    }(core.Filter));
+
+    /*!
+     * @amoy/filter-page-curl - v3.0.13
+     * Compiled Thu, 07 Nov 2019 03:28:13 UTC
+     *
+     * @amoy/filter-page-curl is licensed under the MIT License.
+     * http://www.opensource.org/licenses/mit-license
+     */
+
+    var vertex$1 = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
+
+    var fragment$1 = "varying vec2 vTextureCoord;//passed from vect shader \n\nuniform sampler2D uSampler;// 2d texture\nuniform sampler2D nextPageTexture;// 2d texture\n\nuniform vec4 filterArea;\n\nuniform float uPosx;\nuniform float uPosy;\nuniform float uStartPosx;\nuniform float uStartPosy;\nuniform float uRadius;//翻卷半径\nuniform int uFlipmode;//反向翻转模式 0 or 1\n\n\n#define pi 3.14159265359\n//#define uRadius .04\n\n#define iResolution filterArea\n#define iTime uTime\n#define fragColor gl_FragColor\n#define texture texture2D\n\nvoid main(void)\n{\n\tfloat aspect=iResolution.x/iResolution.y;\n\tfloat radius = uRadius;\n\n\tvec2 uv=vTextureCoord*filterArea.xy*vec2(aspect,1.)/iResolution.xy;\n\tvec2 maxuv = filterArea.xy*vec2(aspect,1.)/iResolution.xy;\n\tif(uFlipmode > 0){\n\t\tuv.x = maxuv.x - uv.x;\n\t}else{\n\t\tvec2 maxuv = vec2(1.0);\n\t}\n\t\n\tvec4 virtualMouse=vec4(uPosx,uPosy,uStartPosx,uStartPosy);\n\tvec2 mouse=virtualMouse.xy*vec2(aspect,1.)/iResolution.xy;\n\tvec2 mouseDir=normalize(abs(virtualMouse.zw)-virtualMouse.xy);\n\tvec2 origin=clamp(mouse-mouseDir*mouse.x/mouseDir.x,0.,1.);\n\t\n\tfloat mouseDist=clamp(length(mouse-origin)+(aspect-(abs(virtualMouse.z)/iResolution.x)*aspect)/mouseDir.x,0.,aspect/mouseDir.x);\n\t\n\tif(mouseDir.x<0.)\n\t{\n\t\tmouseDist=distance(mouse,origin);\n\t}\n\t\n\tfloat proj=dot(uv-origin,mouseDir);\n\tfloat dist=proj-mouseDist;\n\t\n\tvec2 linePoint=uv-dist*mouseDir;\n\t\n\tif(dist>radius)\n\t{\n\t\t//下一页面\n\t\tif(uFlipmode > 0){\n\t\t\tuv.x = maxuv.x- uv.x;\n\t\t}\n\t\tfragColor=texture(nextPageTexture,uv*vec2(1./aspect,1.));\n\t\tfragColor.rgb*= clamp(min(.99, .5 + 1. - radius/.04), 1.0, pow(clamp((dist-radius)*14.0,0.,1.),max(.05,5.*radius)));\n\t}\n\telse if(dist>=0.)\n\t{\n\t\t// 圆柱面点映射\n\t\tfloat theta=asin(dist/radius);\n\t\tvec2 p2=linePoint+mouseDir*(pi-theta)*radius;\n\t\tvec2 p1=linePoint+mouseDir*theta*radius;\n\t\tif(p2.x<=aspect&&p2.y<=1.&&p2.x>0.&&p2.y>0.){\n\t\t\tuv = p2;\n\t\t\t//背面页 圆柱面\n\t\t\tif(uFlipmode > 0){\n\t\t\t\tuv = (maxuv- uv*vec2(1./aspect,1.));\n\t\t\t\tuv.y = maxuv.y- uv.y;\n\t\t\t\tuv.x = maxuv.x- uv.x;\n\t\t\t}else{\n\t\t\t\tuv = (1.0- uv*vec2(1./aspect,1.));\n\t\t\t\tuv.y = 1.0- uv.y;\n\t\t\t}\n\t\t\tfragColor = texture(nextPageTexture, uv);\n\t\t\tfragColor.rgb*=clamp(min(.99, .6 + 1. - uRadius/.04), 1.0, pow(clamp((radius-dist)/radius,0.,1.), max(.05,5.*radius)));\n\t\t\tfragColor.a = 1.;\n\t\t}else{\n\t\t\t//corer 圆角\n\t\t\tuv = p1;\n\t\t\tif(uFlipmode > 0){\n\t\t\t\tuv.x = maxuv.x- uv.x;\n\t\t\t}\n\t\t\tfragColor = texture(uSampler, uv * vec2(1. / aspect, 1.));\n\t\t\tfragColor.rgb*=clamp(.94, 1.0, pow(clamp((radius-dist)/radius,0.,1.),max(.05,5.*radius)));\n\t\t}\n\t}\n\telse\n\t{\n\t\tvec2 p=linePoint+mouseDir*(abs(dist)+pi*radius);\n\t\tif(p.x<=aspect&&p.y<=1.&&p.x>0.&&p.y>0.&&length(mouseDir)>0.){\n\t\t\tuv = p ;\n\t\t\t// 背面页平面区域\n\t\t\tif(uFlipmode > 0){\n\t\t\t\tuv = (maxuv - uv*vec2(1./aspect,1.));\n\t\t\t\tuv.y = maxuv.y - uv.y;\n\t\t\t\tuv.x = maxuv.x- uv.x;\n\t\t\t}else{\n\t\t\t\tuv = (1.0 - uv*vec2(1./aspect,1.));\n\t\t\t\tuv.y = 1.0 - uv.y;\n\t\t\t}\n\t\t\tfragColor=texture(nextPageTexture,uv);\n\t\t\tfragColor.a = 1.;\n\t\t}else{\n\t\t\t// 正面页面\n\t\t\tif(uFlipmode > 0){\n\t\t\t\tuv.x = maxuv.x- uv.x;\n\t\t\t}\n\t\t\tfragColor=texture(uSampler,uv*vec2(1./aspect,1.));\n\t\t}\n\t\t\n\t}\n}";
+
+    /**
+     * @class
+     * @see {@link https://www.npmjs.com/package/@amoy/filter-page-curl}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters}
+     * @extends PIXI.Filter
+     * @memberof AMOY.filters
+     * @param {number} [posx=0.] drag moving x position
+     * @param {number} [posy=0.] drag moving y position
+     * @param {number} [startPosx=0.] drag start x position
+     * @param {number} [startPosy=0.] drag start y position
+     */
+
     var AmoyPageCurlFilter = /*@__PURE__*/(function (Filter) {
-        function AmoyPageCurlFilter(posx, posy, startPosx, startPosy, nextPageTexture, radius) {
+        function AmoyPageCurlFilter(posx, posy, startPosx, startPosy, nextPageTexture, radius, flipMode) {
             if ( posx === void 0 ) { posx = 0.0; }
             if ( posy === void 0 ) { posy = 0.0; }
             if ( startPosx === void 0 ) { startPosx = 0.; }
             if ( startPosy === void 0 ) { startPosy = 0.0; }
             if ( radius === void 0 ) { radius=0.04; }
+            if ( flipMode === void 0 ) { flipMode=false; }
 
-            Filter.call(this, vertex, fragment);
+            Filter.call(this, vertex$1, fragment$1);
             // sub class
             this.posx = posx;
             this.posy = posy;
@@ -205,6 +319,7 @@
             this._sliceSize = 0;
             this._slicePixelSize = 0;
             this._sliceInnerSize = 0;
+            this._flipMode = flipMode;
 
             this._scaleMode = null;
 
@@ -220,7 +335,7 @@
         AmoyPageCurlFilter.prototype = Object.create( Filter && Filter.prototype );
         AmoyPageCurlFilter.prototype.constructor = AmoyPageCurlFilter;
 
-        var prototypeAccessors = { posx: { configurable: true },radius: { configurable: true },posy: { configurable: true },startPosx: { configurable: true },startPosy: { configurable: true },nextPageTexture: { configurable: true } };
+        var prototypeAccessors = { flipMode: { configurable: true },posx: { configurable: true },radius: { configurable: true },posy: { configurable: true },startPosx: { configurable: true },startPosy: { configurable: true },nextPageTexture: { configurable: true } };
 
         /**
          * Override existing apply method in PIXI.Filter
@@ -230,10 +345,23 @@
             this.uniforms.uPosx = this.posx <= 0 ? 0.0 : this.posx;
             this.uniforms.uPosy = this.posy <= 0 ? 0.0 : this.posy;
             this.uniforms.uRadius = this.radius;
+            this.uniforms.uFlipmode = this._flipMode ? 1:0;
             this.uniforms.uStartPosx = this.startPosx <= 0 ? 0.0 : this.startPosx;
             this.uniforms.uStartPosy = this.startPosy <= 0 ? 0.0 : this.startPosy;
 
             filterManager.applyFilter(this, input, output, clear);
+        };
+
+        /**
+         * current pos x
+         */
+        prototypeAccessors.flipMode.get = function () {
+            return this.uFlipmode.uFlipMode;
+        };
+
+        prototypeAccessors.flipMode.set = function (value) {
+            this._flipMode = value;
+            this.uniforms.uFlipmode = this._flipMode ? 1:0;
         };
 
         /**
@@ -255,7 +383,7 @@
         };
 
         prototypeAccessors.radius.set = function (value) {
-            this.uniforms.uRadius = Math.max(Math.min(value, 0.04), 0.01);
+            this.uniforms.uRadius = Math.max(Math.min(value, 0.04), 0.000001);
         };
 
 
@@ -356,26 +484,32 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-gameboy-style - v2.0.0
-     * Compiled Mon, 28 Oct 2019 10:13:33 UTC
+     * @amoy/filter-gameboy-style - v3.0.8
+     * Compiled Tue, 05 Nov 2019 08:11:42 UTC
      *
      * @amoy/filter-gameboy-style is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
      */
 
-    var vertex$1 = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
+    var vertex$2 = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
 
-    var fragment$1 = "varying vec2 vTextureCoord;//passed from vect shader \n\nuniform sampler2D uSampler;// 2d texture\nuniform vec4 filterArea;\n\nuniform float uPosx;\nuniform float uPosy;\nuniform float uTime;\n\nvoid main(){\n\tvec2 fragCoord=vTextureCoord*filterArea.xy;\n\tvec2 uv=fragCoord.xy/filterArea.xy;\n\tconst float resolution=160.;//步长\n\tuv=floor(uv*resolution)/resolution;// 0 or 1\n\t\n\tvec3 color=texture2D(uSampler,uv).rgb;\n\t\n\tfloat intensity=(color.r+color.g+color.b)/3.;\n\tint index=int(intensity*4.);\n\n\tint r = index+0;\n\tint g = index+1;\n\tint b = index+2;\n\tif(index == 0){\n\t\tgl_FragColor=vec4(vec3(15./255., 56./255., 15./255.),1.);\n\t}else if(index == 1){\n\t\tgl_FragColor=vec4(vec3(48./255., 98./255., 48./255.),1.);\n\t}else if(index == 2){\n\t\tgl_FragColor=vec4(vec3(139./255., 172./255., 15./255.),1.);\n\t}else{\n\t\tgl_FragColor=vec4(vec3(155./255., 188./255., 15./255.),1.);\n\t}\n}";
+    var fragment$2 = "varying vec2 vTextureCoord;//passed from vect shader \n\nuniform sampler2D uSampler;// 2d texture\nuniform vec4 filterArea;\n\nuniform float uPosx;\nuniform float uPosy;\nuniform float uTime;\n\nvoid main(){\n\tvec2 fragCoord=vTextureCoord*filterArea.xy;\n\tvec2 uv=fragCoord.xy/filterArea.xy;\n\tconst float resolution=160.;//步长\n\tuv=floor(uv*resolution)/resolution;// 0 or 1\n\t\n\tvec3 color=texture2D(uSampler,uv).rgb;\n\t\n\tfloat intensity=(color.r+color.g+color.b)/3.;\n\tint index=int(intensity*4.);\n\n\tint r = index+0;\n\tint g = index+1;\n\tint b = index+2;\n\tif(index == 0){\n\t\tgl_FragColor=vec4(vec3(15./255., 56./255., 15./255.),1.);\n\t}else if(index == 1){\n\t\tgl_FragColor=vec4(vec3(48./255., 98./255., 48./255.),1.);\n\t}else if(index == 2){\n\t\tgl_FragColor=vec4(vec3(139./255., 172./255., 15./255.),1.);\n\t}else{\n\t\tgl_FragColor=vec4(vec3(155./255., 188./255., 15./255.),1.);\n\t}\n}";
 
     /**
+     *
+     *  * The AmoyGameboyStyleFilter applies the effect to an object.<br>
+     * ![original](../tools/screenshots/dist/original.png)![filter](../tools/screenshots/dist/AmoyGameboyStyleFilter.png)
+     *
      * @class
+     * @see {@link https://www.npmjs.com/package/@amoy/filter-gameboy-style}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters}
      * @extends PIXI.Filter
      * @memberof AMOY.filters
      */
 
     var AmoyGameboyStyleFilter = /*@__PURE__*/(function (Filter) {
         function AmoyGameboyStyleFilter() {
-            Filter.call(this, vertex$1, fragment$1);
+            Filter.call(this, vertex$2, fragment$2);
             // sub class
         }
 
@@ -395,21 +529,25 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-snow - v2.0.0
-     * Compiled Mon, 28 Oct 2019 10:13:33 UTC
+     * @amoy/filter-snow - v3.0.8
+     * Compiled Tue, 05 Nov 2019 08:11:42 UTC
      *
      * @amoy/filter-snow is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
      */
 
-    var vertex$2 = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
+    var vertex$3 = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
 
-    var fragment$2 = "varying vec2 vTextureCoord;//passed from vect shader \n\nuniform sampler2D uSampler;// 2d texture\nuniform vec4 filterArea;\n\nuniform int uBlizard;\nuniform float uTime;\n\nconst mat3 p=mat3(13.323122,23.5112,21.71123,21.1212,28.7312,11.9312,21.8112,14.7212,61.3934);\n\t\nvec3 createSnow(int i,float depth,float width,float speed,float dof,vec2 uv){\n\tfloat fi=float(i);\n\tvec2 q=uv*(1.+fi*depth);\n\tq+=vec2(q.y*(width*mod(fi*7.238917,1.)-width*.5),speed*uTime/(1.+fi*depth*.03));\n\tvec3 n=vec3(floor(q),31.189+fi);\n\tvec3 m=floor(n)*.00001+fract(n);\n\tvec3 mp=(31415.9+m)/fract(p*m);\n\tvec3 r=fract(mp);\n\tvec2 s=abs(mod(q,1.)-.5+.9*r.xy-.45);\n\ts+=.01*abs(2.*fract(10.*q.yx)-1.);\n\tfloat d=.6*max(s.x-s.y,s.x+s.y)+max(s.x,s.y)-.01;\n\tfloat edge=.005+.05*min(.5*abs(fi-5.-dof),1.);\n\treturn vec3(smoothstep(edge,-edge,d)*(r.x/(1.+.02*fi*depth)));\n}\n\nvoid main()\n{\n\tvec2 fragCoord=vTextureCoord*filterArea.xy;\n\tvec2 uv=vec2(1.,filterArea.y/filterArea.x)*fragCoord.xy/filterArea.xy;\n\tvec3 acc=vec3(0.);\n\tfloat dof=5.*sin(uTime*.1);\n\tif(uBlizard==1){\n\t\tfor(int i=0;i<200;i++){\n\t\t\tacc+=createSnow(i,.1,.8,-1.5,dof,uv);\n\t\t}\n\t}else{\n\t\tfor(int i=0;i<50;i++){\n\t\t\tacc+=createSnow(i,.5,.3,-.6,dof,uv);\n\t\t}\n\t}\n\tgl_FragColor=vec4(vec3(acc),1.) + texture2D(uSampler, vTextureCoord);\n}";
+    var fragment$3 = "varying vec2 vTextureCoord;//passed from vect shader \n\nuniform sampler2D uSampler;// 2d texture\nuniform vec4 filterArea;\n\nuniform int uBlizard;\nuniform float uTime;\n\nconst mat3 p=mat3(13.323122,23.5112,21.71123,21.1212,28.7312,11.9312,21.8112,14.7212,61.3934);\n\t\nvec3 createSnow(int i,float depth,float width,float speed,float dof,vec2 uv){\n\tfloat fi=float(i);\n\tvec2 q=uv*(1.+fi*depth);\n\tq+=vec2(q.y*(width*mod(fi*7.238917,1.)-width*.5),speed*uTime/(1.+fi*depth*.03));\n\tvec3 n=vec3(floor(q),31.189+fi);\n\tvec3 m=floor(n)*.00001+fract(n);\n\tvec3 mp=(31415.9+m)/fract(p*m);\n\tvec3 r=fract(mp);\n\tvec2 s=abs(mod(q,1.)-.5+.9*r.xy-.45);\n\ts+=.01*abs(2.*fract(10.*q.yx)-1.);\n\tfloat d=.6*max(s.x-s.y,s.x+s.y)+max(s.x,s.y)-.01;\n\tfloat edge=.005+.05*min(.5*abs(fi-5.-dof),1.);\n\treturn vec3(smoothstep(edge,-edge,d)*(r.x/(1.+.02*fi*depth)));\n}\n\nvoid main()\n{\n\tvec2 fragCoord=vTextureCoord*filterArea.xy;\n\tvec2 uv=vec2(1.,filterArea.y/filterArea.x)*fragCoord.xy/filterArea.xy;\n\tvec3 acc=vec3(0.);\n\tfloat dof=5.*sin(uTime*.1);\n\tif(uBlizard==1){\n\t\tfor(int i=0;i<100;i++){\n\t\t\tacc+=createSnow(i,.1,.8,-1.5,dof,uv);\n\t\t}\n\t}else{\n\t\tfor(int i=0;i<50;i++){\n\t\t\tacc+=createSnow(i,.5,.3,-.6,dof,uv);\n\t\t}\n\t}\n\tgl_FragColor=vec4(vec3(acc),1.) + texture2D(uSampler, vTextureCoord);\n}";
 
     /**
      * @class
+     * @see {@link https://www.npmjs.com/package/@amoy/snow}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters}
      * @extends PIXI.Filter
      * @memberof AMOY.filters
+     * @param {Boolen} [blizard=false] snow mode true or false
+     * @param {number} [delta=0] time for animation
      */
 
     var AmoySnowFilter = /*@__PURE__*/(function (Filter) {
@@ -417,7 +555,7 @@
             if ( blizard === void 0 ) { blizard = false; }
             if ( delta === void 0 ) { delta = 0.0; }
 
-            Filter.call(this, vertex$2, fragment$2);
+            Filter.call(this, vertex$3, fragment$3);
             // sub class
             this._blizard = blizard;
             this.blizard = this._blizard;
@@ -472,28 +610,96 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-weather-rainy - v2.0.0
-     * Compiled Mon, 28 Oct 2019 10:13:33 UTC
+     * @amoy/filter-light-sweep - v3.0.11
+     * Compiled Wed, 06 Nov 2019 02:45:01 UTC
+     *
+     * @amoy/filter-light-sweep is licensed under the MIT License.
+     * http://www.opensource.org/licenses/mit-license
+     */
+
+    var vertex$4 = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
+
+    var fragment$4 = "varying vec2 vTextureCoord;//passed from vect shader\n\nuniform sampler2D uSampler;// 2d texture\nuniform vec4 filterArea;\n\nuniform float uTime;\n\nvoid main()\n{\n\t\n\tvec2 uv=vTextureCoord;\n\tuv.x *=.5;\n\tfloat col=sin(uv.y+uv.x*3.-uTime*6.)*.9;\n\tcol*=col*col*.6;\n\n\tcol= clamp(col,0.,1.);\n\t\n\tvec4 tex=texture2D(uSampler,vTextureCoord);\n\tif(tex.a < .005){\n\t\tdiscard;\n\t}\n\tgl_FragColor=tex+vec4(col,col,col,tex.a);\n}";
+
+    /**
+     * The AmoyLightSweepFilter applies the effect to an object.<br>
+     * ![original](../tools/screenshots/dist/original.png)![filter](../tools/screenshots/dist/AmoyLightSweepFilter.gif)
+     *
+     * @class
+     * @see {@link https://www.npmjs.com/package/@amoy/filter-light-sweep}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters}
+     * @extends PIXI.Filter
+     * @memberof AMOY.filters
+     * @param {number} [delta=0] time for shader animation
+     */
+
+    var AmoyLightSweepFilter = /*@__PURE__*/(function (Filter) {
+        function AmoyLightSweepFilter(delta) {
+            if ( delta === void 0 ) { delta = 0.0; }
+
+            Filter.call(this, vertex$4, fragment$4);
+            this.delta = delta;
+        }
+
+        if ( Filter ) { AmoyLightSweepFilter.__proto__ = Filter; }
+        AmoyLightSweepFilter.prototype = Object.create( Filter && Filter.prototype );
+        AmoyLightSweepFilter.prototype.constructor = AmoyLightSweepFilter;
+
+        var prototypeAccessors = { delta: { configurable: true } };
+
+        /**
+         * Override existing apply method in PIXI.Filter
+         * @private
+         */
+        AmoyLightSweepFilter.prototype.apply = function apply (filterManager, input, output, clear) {
+            this.uniforms.uTime = this.delta <= 0 ? 2.0 : this.delta;
+            filterManager.applyFilter(this, input, output, clear);
+        };
+        /**
+         * time for animation
+         *
+         * @member {number}
+         * @default 0.0
+         */
+        prototypeAccessors.delta.get = function () {
+            return this.uniforms.uTime;
+        };
+
+        prototypeAccessors.delta.set = function (value) {
+            this.uniforms.uTime = value;
+        };
+
+        Object.defineProperties( AmoyLightSweepFilter.prototype, prototypeAccessors );
+
+        return AmoyLightSweepFilter;
+    }(core.Filter));
+
+    /*!
+     * @amoy/filter-weather-rainy - v3.0.8
+     * Compiled Tue, 05 Nov 2019 08:11:42 UTC
      *
      * @amoy/filter-weather-rainy is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
      */
 
-    var vertex$3 = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
+    var vertex$5 = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
 
-    var fragment$3 = "varying vec2 vTextureCoord;//passed from vect shader\n\nuniform sampler2D uSampler;// 2d texture\nuniform vec4 filterArea;\n\nuniform float uTime;\n\nfloat rand(vec2 p){\n\tp+=.2127+p.x+.3713*p.y;\n\tvec2 r=4.789*sin(789.123*(p));\n\treturn fract(r.x*r.y);\n}\n//sample noise\nfloat sn(vec2 p){\n\tvec2 i=floor(p-.5);\n\tvec2 f=fract(p-.5);\n\tf=f*f*f*(f*(f*6.-15.)+10.);\n\tfloat rt=mix(rand(i),rand(i+vec2(1.,0.)),f.x);\n\tfloat rb=mix(rand(i+vec2(0.,1.)),rand(i+vec2(1.,1.)),f.x);\n\treturn mix(rt,rb,f.y);\n}\n\nvoid main(void)\n{\n\tvec2 uv=vTextureCoord;\n\tuv.y = 1.0 - uv.y;\n\tvec2 newUV=uv;\n\tnewUV.x-=uTime*.3;\n\tnewUV.y+=uTime*3.;\n\tfloat strength=sin(uTime*.5+sn(newUV))*.1+.2;\n\tfloat rain=sn(vec2(newUV.x*20.1,newUV.y*40.1+newUV.x*400.1-20.*strength));\n\tfloat rain2=sn(vec2(newUV.x*45.+uTime*.5,newUV.y*30.1+newUV.x*100.1));\n\train=strength-rain;\n\train+=rain2*(sin(strength)-.4)*2.;\n\train=clamp(rain,0.,.5)*.8;\n\t\n\tgl_FragColor=vec4(vec3(rain),1.)+texture2D(uSampler,vTextureCoord);\n}";
+    var fragment$5 = "varying vec2 vTextureCoord;//passed from vect shader\n\nuniform sampler2D uSampler;// 2d texture\nuniform vec4 filterArea;\n\nuniform float uTime;\n\nfloat rand(vec2 p){\n\tp+=.2127+p.x+.3713*p.y;\n\tvec2 r=4.789*sin(789.123*(p));\n\treturn fract(r.x*r.y);\n}\n//sample noise\nfloat sn(vec2 p){\n\tvec2 i=floor(p-.5);\n\tvec2 f=fract(p-.5);\n\tf=f*f*f*(f*(f*6.-15.)+10.);\n\tfloat rt=mix(rand(i),rand(i+vec2(1.,0.)),f.x);\n\tfloat rb=mix(rand(i+vec2(0.,1.)),rand(i+vec2(1.,1.)),f.x);\n\treturn mix(rt,rb,f.y);\n}\n\nvoid main(void)\n{\n\tvec2 uv=vTextureCoord;\n\tuv.y = 1.0 - uv.y;\n\tvec2 newUV=uv;\n\tnewUV.x-=uTime*.3;\n\tnewUV.y+=uTime*3.;\n\tfloat strength=sin(uTime*.5+sn(newUV))*.1+.2;\n\tfloat rain=sn(vec2(newUV.x*20.1,newUV.y*40.1+newUV.x*400.1-20.*strength));\n\tfloat rain2=sn(vec2(newUV.x*45.+uTime*.5,newUV.y*30.1+newUV.x*100.1));\n\train=strength-rain;\n\train+=rain2*(sin(strength)-.4)*2.;\n\train=clamp(rain,0.,.5)*.8;\n\t\n\tgl_FragColor=vec4(vec3(rain),1.)+texture2D(uSampler,vTextureCoord);\n}";
 
     /**
      * @class
      * @extends PIXI.Filter
+     * @see {@link https://www.npmjs.com/package/@amoy/weather-rainy|@amoy/weather-rainy}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters|@amoy/filters}
      * @memberof AMOY.filters
+     * @param {number} [delta = 0] time for animation
      */
 
     var AmoyWeatherRainyFilter = /*@__PURE__*/(function (Filter) {
         function AmoyWeatherRainyFilter(delta) {
             if ( delta === void 0 ) { delta = 0.0; }
 
-            Filter.call(this, vertex$3, fragment$3);
+            Filter.call(this, vertex$5, fragment$5);
             // sub class
             this.delta = delta;
         }
@@ -530,6 +736,159 @@
         Object.defineProperties( AmoyWeatherRainyFilter.prototype, prototypeAccessors );
 
         return AmoyWeatherRainyFilter;
+    }(core.Filter));
+
+    /*!
+     * @amoy/filter-weather-cloud - v3.0.15
+     * Compiled Thu, 07 Nov 2019 06:29:35 UTC
+     *
+     * @amoy/filter-weather-cloud is licensed under the MIT License.
+     * http://www.opensource.org/licenses/mit-license
+     */
+
+    var vertex$6 = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
+
+    var fragment$6 = "varying vec2 vTextureCoord;//passed from vect shader\n\nuniform sampler2D uSampler;// 2d texture\nuniform vec4 filterArea;\n\nuniform float uPosx;\nuniform float uPosy;\nuniform float uTime;\n\nvec3 mod289(vec3 x){return x-floor(x*(1./289.))*289.;}\nvec4 mod289(vec4 x){\n\treturn x-floor(x*(1./289.))*289.;\n}\nvec4 permute(vec4 x){\n\treturn mod289(((x*34.)+1.)*x);\n}\nvec4 taylorInvSqrt(vec4 r){\n\treturn 1.79284291400159-.85373472095314*r;\n}\nvec3 fade(vec3 t){\n\treturn t*t*t*(t*(t*6.-15.)+10.);\n}\nfloat noise(vec3 P){\n\tvec3 i0=mod289(floor(P)),i1=mod289(i0+vec3(1.)),\n\tf0=fract(P),f1=f0-vec3(1.),f=fade(f0);\n\tvec4 ix=vec4(i0.x,i1.x,i0.x,i1.x),iy=vec4(i0.yy,i1.yy),\n\tiz0=i0.zzzz,iz1=i1.zzzz,\n\tixy=permute(permute(ix)+iy),ixy0=permute(ixy+iz0),ixy1=permute(ixy+iz1),\n\tgx0=ixy0*(1./7.),gy0=fract(floor(gx0)*(1./7.))-.5,\n\tgx1=ixy1*(1./7.),gy1=fract(floor(gx1)*(1./7.))-.5;\n\tgx0=fract(gx0);gx1=fract(gx1);\n\tvec4 gz0=vec4(.5)-abs(gx0)-abs(gy0),sz0=step(gz0,vec4(0.)),\n\tgz1=vec4(.5)-abs(gx1)-abs(gy1),sz1=step(gz1,vec4(0.));\n\tgx0-=sz0*(step(0.,gx0)-.5);gy0-=sz0*(step(0.,gy0)-.5);\n\tgx1-=sz1*(step(0.,gx1)-.5);gy1-=sz1*(step(0.,gy1)-.5);\n\tvec3 g0=vec3(gx0.x,gy0.x,gz0.x),g1=vec3(gx0.y,gy0.y,gz0.y),\n\tg2=vec3(gx0.z,gy0.z,gz0.z),g3=vec3(gx0.w,gy0.w,gz0.w),\n\tg4=vec3(gx1.x,gy1.x,gz1.x),g5=vec3(gx1.y,gy1.y,gz1.y),\n\tg6=vec3(gx1.z,gy1.z,gz1.z),g7=vec3(gx1.w,gy1.w,gz1.w);\n\tvec4 norm0=taylorInvSqrt(vec4(dot(g0,g0),dot(g2,g2),dot(g1,g1),dot(g3,g3))),\n\tnorm1=taylorInvSqrt(vec4(dot(g4,g4),dot(g6,g6),dot(g5,g5),dot(g7,g7)));\n\tg0*=norm0.x;g2*=norm0.y;g1*=norm0.z;g3*=norm0.w;\n\tg4*=norm1.x;g6*=norm1.y;g5*=norm1.z;g7*=norm1.w;\n\tvec4 nz=mix(vec4(dot(g0,vec3(f0.x,f0.y,f0.z)),dot(g1,vec3(f1.x,f0.y,f0.z)),\n\tdot(g2,vec3(f0.x,f1.y,f0.z)),dot(g3,vec3(f1.x,f1.y,f0.z))),\n\tvec4(dot(g4,vec3(f0.x,f0.y,f1.z)),dot(g5,vec3(f1.x,f0.y,f1.z)),\n\tdot(g6,vec3(f0.x,f1.y,f1.z)),dot(g7,vec3(f1.x,f1.y,f1.z))),f.z);\n\treturn 2.2*mix(mix(nz.x,nz.z,f.y),mix(nz.y,nz.w,f.y),f.x);\n}\n\nvoid main()\n{\n\t// Normalized pixel coordinates (from 0 to 1) and center pos\n\tvec2 uv=vTextureCoord;\n\tuv = uv -.5;\n\n\tfloat c=0.;\n\t// BUILD A FRACTAL TEXTURE USING\n\t// NOISE THAT ANIMATES THROUGH Z\n\tfloat x=uv.x+uTime*.2;\n\tfloat y=uv.y;\n\n\tfor(int n=1;n<=5;n++){\n\t\tfloat z=float(n);\n\t\tvec3 p=vec3(x,y,z+.05*uTime);\n\t\tfloat frequency=pow(2.,z);\n\t\tc+=(noise(frequency*p)/frequency);\n\t}\n\t\n\n\t// CLOUDS SHOT WITH COLOR\n\tvec3 sky=vec3(.1,.3,.9);\n\tvec3 white=vec3(1.0, 1.0, 1.0);\n\tvec3 pink=vec3(0.8549, 0.7569, 0.7569);\n\tvec3 cloud=mix(pink,white,c);\n\tc=clamp(c+y,0.,1.);\n\tvec3 color=mix(sky,cloud,c);\n\t\n\t// Output to screen\n\tgl_FragColor=vec4(sqrt(color),1.);\n\n}";
+
+    /**
+     * @author lilieming
+     * original shader :https://www.shadertoy.com/view/Wl2XWR by @lilieming
+     */
+
+    /**
+     * @class
+     * @see {@link https://www.npmjs.com/package/@amoy/filter-weather-cloud}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters}
+     * @extends PIXI.Filter
+     * @memberof AMOY.filters
+     * @param {number} [delta = 0] time for animation
+     */
+
+    var AmoyWeatherCloudFilter = /*@__PURE__*/(function (Filter) {
+        function AmoyWeatherCloudFilter(delta) {
+            if ( delta === void 0 ) { delta = 0.0; }
+
+            Filter.call(this, vertex$6, fragment$6);
+            // sub class
+            this.delta = delta;
+        }
+
+        if ( Filter ) { AmoyWeatherCloudFilter.__proto__ = Filter; }
+        AmoyWeatherCloudFilter.prototype = Object.create( Filter && Filter.prototype );
+        AmoyWeatherCloudFilter.prototype.constructor = AmoyWeatherCloudFilter;
+
+        var prototypeAccessors = { delta: { configurable: true } };
+
+        /**
+         * Override existing apply method in PIXI.Filter
+         * @private
+         */
+        AmoyWeatherCloudFilter.prototype.apply = function apply (filterManager, input, output, clear) {
+            this.uniforms.uTime = this.delta <= 0 ? 2.0 : this.delta;
+            filterManager.applyFilter(this, input, output, clear);
+        };
+
+        /**
+         * time for animation
+         *
+         * @member {number}
+         * @default 0.0
+         */
+        prototypeAccessors.delta.get = function () {
+            return this.uniforms.uTime;
+        };
+
+        prototypeAccessors.delta.set = function (value) {
+            this.uniforms.uTime = value;
+        };
+
+        Object.defineProperties( AmoyWeatherCloudFilter.prototype, prototypeAccessors );
+
+        return AmoyWeatherCloudFilter;
+    }(core.Filter));
+
+    /*!
+     * @amoy/filter-inner-outline - v3.0.8
+     * Compiled Tue, 05 Nov 2019 08:11:42 UTC
+     *
+     * @amoy/filter-inner-outline is licensed under the MIT License.
+     * http://www.opensource.org/licenses/mit-license
+     */
+
+    var vertex$7 = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
+
+    var fragment$7 = "varying vec2 vTextureCoord;//passed from vect shader\nuniform sampler2D uSampler;// 2d texture\nuniform vec4 filterArea;\n\nuniform float uTime;\nuniform vec3 uColor;\n\nfloat rand(vec2 n){\n\treturn fract(sin(dot(n,vec2(12.9898,12.1414)))*83758.5453);\n}\n\nfloat noise(vec2 n){\n\tconst vec2 d=vec2(0.,1.);\n\tvec2 b=floor(n);\n\tvec2 f=mix(vec2(0.),vec2(1.),fract(n));\n\treturn mix(mix(rand(b),rand(b+d.yx),f.x),mix(rand(b+d.xy),rand(b+d.yy),f.x),f.y);\n}\n\nvec3 ramp(float t){\n\treturn t<=.5?vec3(1.-t*1.4,.2,1.05)/t:vec3(.3*(1.-t)*2.,.2,1.05)/t;\n}\n\nfloat fire(vec2 n){\n\treturn noise(n)+noise(n*2.1)*.6+noise(n*5.4)*.42;\n}\n\nvec3 getLine(vec3 col,vec2 fc,mat2 mtx,float shift){\n\tfloat t=uTime;\n\tvec2 uv=(fc/filterArea.xy)*mtx;\n\t\n\tuv.x+=uv.y<.5?23.+t*.35:-11.+t*.3;\n\tuv.y=abs(uv.y-shift);\n\tuv*=5.;\n\t\n\tfloat q=fire(uv-t*.013)/2.;\n\tvec2 r=vec2(fire(uv+q/2.+t-uv.x-uv.y),fire(uv+q-t));\n\tvec3 color=vec3(1./(pow(vec3(.5,0.,.1)+1.61,vec3(4.))));\n\t\n\tfloat grad=pow((r.y+r.y)*max(.0,uv.y)+.1,4.);\n\tcolor=ramp(grad);\n\tcolor/=(1.50+max(vec3(0),color));\n\t\n\tif(color.b<.00000005)\n\tcolor=vec3(.0);\n\t\n\treturn mix(col,color,color.b);\n}\n\nvoid main(){\n\tvec2 fragCoord=vTextureCoord.xy*filterArea.xy;\n\tvec2 uv=fragCoord/filterArea.xy;\n\tvec3 color=vec3(0.);\n\tcolor=getLine(color,fragCoord,mat2(1.,1.,0.,1.),1.02);\n\tcolor=getLine(color,fragCoord,mat2(1.,1.,1.,0.),1.02);\n\tcolor=getLine(color,fragCoord,mat2(1.,1.,0.,1.),-.02);\n\tcolor=getLine(color,fragCoord,mat2(1.,1.,1.,0.),-.02);\n\tgl_FragColor=vec4(vec3(color.b)*uColor,1.)+texture2D(uSampler,vTextureCoord);\n}";
+
+    /**
+     * The AmoyInnerOutlineFilter applies the effect to an object.<br>
+     * ![original](../tools/screenshots/dist/original.png)![filter](../tools/screenshots/dist/AmoyInnerOutlineFilter.gif)
+     *
+     * @class
+     * @see {@link https://www.npmjs.com/package/@amoy/filter-gameboy-style}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters}
+     * @extends PIXI.Filter
+     * @memberof AMOY.filters
+     * @param {Object} [color={r:1.0, g:0, b:0}] outline color
+     * @param {number} [delta=0.0] time for shader animation
+     */
+
+    var AmoyInnerOutlineFilter = /*@__PURE__*/(function (Filter) {
+        function AmoyInnerOutlineFilter(color, delta) {
+            if ( color === void 0 ) { color={r:1.0, g:0, b:0}; }
+            if ( delta === void 0 ) { delta = 0.0; }
+
+            Filter.call(this, vertex$7, fragment$7);
+            this.uniforms.uColor  = new Float32Array(3);
+            this._color = {r:color.r, g:color.g, b:color.b};
+            this.delta = delta;
+        }
+
+        if ( Filter ) { AmoyInnerOutlineFilter.__proto__ = Filter; }
+        AmoyInnerOutlineFilter.prototype = Object.create( Filter && Filter.prototype );
+        AmoyInnerOutlineFilter.prototype.constructor = AmoyInnerOutlineFilter;
+
+        var prototypeAccessors = { delta: { configurable: true },color: { configurable: true } };
+
+        /**
+         * Override existing apply method in PIXI.Filter
+         * @private
+         */
+        AmoyInnerOutlineFilter.prototype.apply = function apply (filterManager, input, output, clear) {
+            this.uniforms.uColor[0] = this._color.r;
+            this.uniforms.uColor[1] = this._color.g;
+            this.uniforms.uColor[2] = this._color.b;
+            this.uniforms.uTime = this.delta <= 0 ? 2.0 : this.delta;
+            filterManager.applyFilter(this, input, output, clear);
+        };
+
+        /**
+         * time for animation
+         *
+         * @member {number}
+         * @default 0.0
+         */
+        prototypeAccessors.delta.get = function () {
+            return this.uniforms.uTime;
+        };
+
+        prototypeAccessors.color.get = function (){
+            return this._color;
+        };
+
+        prototypeAccessors.color.set = function (value) {
+            this._color = value;
+            this.uniforms.uColor[0] = value.r;
+            this.uniforms.uColor[1] = value.g;
+            this.uniforms.uColor[2] = value.b;
+        };
+
+        prototypeAccessors.delta.set = function (value) {
+            this.uniforms.uTime = value;
+        };
+
+        Object.defineProperties( AmoyInnerOutlineFilter.prototype, prototypeAccessors );
+
+        return AmoyInnerOutlineFilter;
     }(core.Filter));
 
     /*!
@@ -8683,12 +9042,14 @@
         var w = this.app.viewW;
         var h = this.app.viewH;
 
+        this.flipMode = false;
+
         var nextPageTexture = new  PIXI.Texture(page1.texture, new PIXI.Rectangle(0-this.app.contentOffsetX, 0 , this.app.viewW, this.app.viewH));
         var page2 = PIXI.Sprite.from(nextPageTexture);
         var newTexture = app.renderer.generateTexture(page2);
 
         var filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, newTexture, 0.05);
-            
+        filter.flipMode = this.flipMode;
         intro.filters =[filter];
 
         this.scene = scene;
@@ -8698,7 +9059,14 @@
 
         app.renderer.resize(w, h);
         app.setAppViewAndRender(canvasWidth,canvasHeight);
-            
+        //ui
+        this.app.exampleParamsFolderGui = this.app.gui.addFolder('Params');
+        this.app.exampleParamsFolderGui.add(this, "flipMode").onChange(function(value) {
+            // Fires on every change, drag, keypress, etc.
+            this.flipMode = value;
+            filter.flipMode = this.flipMode;
+        });
+
         var midW = w/2;
         var midH = h/2;
         
@@ -8827,7 +9195,7 @@
 
         var pageContainer = new PIXI.Container();
 
-        var pic = PIXI.Sprite.from(app.resources.rain.texture);
+        var pic = PIXI.Sprite.from(app.resources.rain1.texture);
         pageContainer.addChild(pic);
         pic.scale.set(.7);
             
@@ -8857,6 +9225,163 @@
         this.scene.parent.removeChild(this.scene);
     };
 
+    var LightSweepExample = function LightSweepExample(app){
+        this.app = app;
+        this.app.example = this;
+            
+        var scene = new PIXI.Container();
+
+        var pageContainer = new PIXI.Container();
+
+        var pic = PIXI.Sprite.from(app.resources.character_sweep.texture);
+        pageContainer.addChild(pic);
+            
+        scene.addChild(pageContainer);
+        
+        var filter = new AmoyLightSweepFilter();
+        pageContainer.filters =[filter];
+
+        var w = pic.width;
+        var h = pic.height;
+
+        this.scene = scene;
+        this.filter = filter;
+
+        app.stage.addChild(this.scene);
+        app.renderer.resize(w, h);
+        app.setAppViewAndRender(w,h);
+
+        app.events.on('animate', function() {
+            filter.uniforms.uTime += 0.01;
+        });
+    };
+
+    LightSweepExample.prototype.destroy = function destroy (){
+        this.scene.parent.removeChild(this.scene);
+    };
+
+    var LensHaloExample = function LensHaloExample(app){
+        this.app = app;
+        this.app.example = this;
+            
+        var scene = new PIXI.Container();
+
+        var pageContainer = new PIXI.Container();
+
+        var pic = PIXI.Sprite.from(app.resources.lens_halo.texture);
+        pageContainer.addChild(pic);
+            
+        scene.addChild(pageContainer);
+        
+        var w = pic.width;
+        var h = pic.height;
+
+        this.scene = scene;
+        this.filter = filter;
+
+        app.stage.addChild(this.scene);
+        app.renderer.resize(w, h);
+        app.setAppViewAndRender(w,h);
+
+        var filter = new AmoyLensHaloFilter(10., 10., 0);
+        pageContainer.filters =[filter];
+
+        app.events.on('animate', function() {
+            filter.uniforms.uTime += 0.02;
+        });
+    };
+
+    LensHaloExample.prototype.destroy = function destroy (){
+        this.scene.parent.removeChild(this.scene);
+    };
+
+    var CloudExample = function CloudExample(app){
+        this.app = app;
+        this.app.example = this;
+            
+        var scene = new PIXI.Container();
+
+        var pageContainer = new PIXI.Container();
+
+        var pic_bg = PIXI.Sprite.from(app.resources.cloud_bg.texture);
+        pageContainer.addChild(pic_bg);
+
+        scene.addChild(pageContainer);
+
+        var anim = new PIXI.AnimatedSprite([app.resources.bird.texture, app.resources.bird1.texture]);
+
+        /*
+         * An AnimatedSprite inherits all the properties of a PIXI sprite
+         * so you can change its position, its anchor, mask it, etc
+         */
+        anim.x = pageContainer.width / 2;
+        anim.y = pageContainer.height / 4;
+        anim.scale.set(.2);
+
+        anim.anchor.set(0.5);
+        anim.animationSpeed = .05;
+        anim.play();
+        
+        scene.addChild(anim);
+
+        
+        var w = pic_bg.width;
+        var h = pic_bg.height;
+
+        this.scene = scene;
+        this.filter = filter;
+
+        app.stage.addChild(this.scene);
+        app.renderer.resize(w, h);
+        app.setAppViewAndRender(w,h);
+
+        var filter = new AmoyWeatherCloudFilter();
+        pic_bg.filters =[filter];
+
+        app.events.on('animate', function() {
+            filter.uniforms.uTime += 0.02;
+        });
+    };
+
+    CloudExample.prototype.destroy = function destroy (){
+        this.scene.parent.removeChild(this.scene);
+    };
+
+    var InnerOutlineExample = function InnerOutlineExample(app){
+        this.app = app;
+        this.app.example = this;
+            
+        var scene = new PIXI.Container();
+
+        var pageContainer = new PIXI.Container();
+
+        var pic = PIXI.Sprite.from(app.resources.sword.texture);
+        pageContainer.addChild(pic);
+            
+        scene.addChild(pageContainer);
+        
+        var w = pic.width;
+        var h = pic.height;
+
+        this.scene = scene;
+        this.filter = filter;
+
+        app.stage.addChild(this.scene);
+        app.renderer.resize(w, h);
+        app.setAppViewAndRender(w,h);
+
+        var filter = new AmoyInnerOutlineFilter();
+        pageContainer.filters =[filter];
+
+        app.events.on('animate', function() {
+            filter.uniforms.uTime += 0.02;
+        });
+    };
+
+    InnerOutlineExample.prototype.destroy = function destroy (){
+        this.scene.parent.removeChild(this.scene);
+    };
+
 
 
     var examples = /*#__PURE__*/Object.freeze({
@@ -8864,7 +9389,11 @@
         PageCurlExample: PageCurlExample,
         GameboyExample: GameboyExample,
         SnowExample: SnowExample,
-        RainExample: RainExample
+        RainExample: RainExample,
+        LightSweepExample: LightSweepExample,
+        LensHaloExample: LensHaloExample,
+        CloudExample: CloudExample,
+        InnerOutlineExample: InnerOutlineExample
     });
 
     var EXAMPLES = [];
@@ -8878,8 +9407,15 @@
         { name: 'page1', url: 'assets/xiaoJinGang_page1.jpg' },
         { name: 'gameboy', url: 'assets/gameboy.jpeg' },
         { name: 'snow', url: 'assets/snow.jpg' },
-        { name: 'rain', url: 'assets/rainny.jpeg' }
-    ];
+        { name: 'rain', url: 'assets/rainny.jpeg' },
+        { name: 'rain1', url: 'assets/rainny1.jpg' },
+        { name: 'character_sweep', url: 'assets/character-sweep.png' },
+        { name: 'lens_halo', url: 'assets/lens-halo.jpg' },
+        { name: 'cloud_bg', url: 'assets/cloud.jpg' },
+        { name: 'cloud_cover', url: 'assets/cloud_cover.png' },
+        { name: 'bird', url: 'assets/frame-1.png' },
+        { name: 'bird1', url: 'assets/frame-2.png' },
+        { name: 'sword', url: 'assets/sword.png' } ];
 
 
     // Load resources then add filters

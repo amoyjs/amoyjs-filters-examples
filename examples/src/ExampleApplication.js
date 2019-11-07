@@ -10,6 +10,18 @@ import {
 
 const { EventEmitter } = utils;
 
+// patch dat.GUI removeFolder function
+dat.GUI.prototype.removeFolder = function(name) {
+    var folder = this.__folders[name];
+    if (!folder) {
+        return;
+    }
+    folder.close();
+    this.__ul.removeChild(folder.domElement.parentNode);
+    delete this.__folders[name];
+    this.onResize();
+}
+
 /*global dat,ga*/
 /**
  * Demo show a bunch of fish and a dat.gui controls
@@ -90,15 +102,16 @@ export default class ExampleApplication extends Application {
     }
 
     changeExample(name){
-        if(this.example){
-            this.destroyCurrentExample();
-        }
 
         if(this.exampleParamsFolderGui){
-            this.gui.removeFolder(this.exampleParamsFolderGui);
+            this.gui.removeFolder("Params");
             this.exampleParamsFolderGui=null;
         }
 
+        if(this.example){
+            this.destroyCurrentExample();
+        }
+        
         this.examples.forEach(element => {
             if(element.name == name){
                 this.example = new element(this);

@@ -17,7 +17,7 @@
   "author": "lilieming<lilieminglook@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@amoy/filters": "3.0.5",
+    "@amoy/filters": "3.0.16",
     "cross-env": "^5.2.0",
     "gsap": "^2.1.3",
     "pixi.js": "^5.0.0-X",

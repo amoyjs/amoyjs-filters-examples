@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
-import {AmoyWeatherRainyFilter} from '@amoy/filters';
+import {AmoyLightSweepFilter} from '@amoy/filters';
 
-export default class RainExample {
+export default class LightSweepExample {
 
     constructor(app){
         this.app = app;
@@ -11,13 +11,12 @@ export default class RainExample {
 
         let pageContainer = new PIXI.Container();
 
-        let pic = PIXI.Sprite.from(app.resources.rain1.texture);
+        let pic = PIXI.Sprite.from(app.resources.character_sweep.texture);
         pageContainer.addChild(pic);
-        pic.scale.set(.7)
         
         scene.addChild(pageContainer);
     
-        let filter = new AmoyWeatherRainyFilter(0);
+        let filter = new AmoyLightSweepFilter();
         pageContainer.filters =[filter];
 
         let w = pic.width;
@@ -30,11 +29,9 @@ export default class RainExample {
         app.renderer.resize(w, h);
         app.setAppViewAndRender(w,h);
 
-
         app.events.on('animate', function() {
             filter.uniforms.uTime += 0.01;
         });
-
     }
 
     destroy(){
