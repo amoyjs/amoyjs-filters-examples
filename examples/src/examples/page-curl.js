@@ -24,8 +24,8 @@ export default class PageCurlExample {
         scene.addChild(nextPageContainer)
         scene.addChild(pageContainer)
 
-        const canvasWidth = 1024;
-        const canvasHeight = 768;
+        const canvasWidth = intro.width/2;
+        const canvasHeight = intro.height/2;
 
         let designW = intro.width;
         let desginH = intro.height;

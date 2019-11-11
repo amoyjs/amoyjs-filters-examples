@@ -20,6 +20,8 @@ const manifest = [
     { name: 'bird', url: 'assets/frame-1.png' },
     { name: 'bird1', url: 'assets/frame-2.png' },
     { name: 'sword', url: 'assets/sword.png' },
+    { name: 'map', url: 'assets/gamemap.jpg' },
+    { name: 'ball', url: 'assets/ball.png' },
 ];
 
 
