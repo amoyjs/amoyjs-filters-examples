@@ -11,3 +11,5 @@ export {default as CloudExample} from './cloud';
 export {default as InnerOutlineExample} from './inner-outline';
 export {default as Light2DExample} from './light2d';
 export {default as FluidExample} from './fluid'
+export {default as SparkExample} from './spark'
+export {default as PixelVibrationExample} from './pixel-vibration'

@@ -43,14 +43,14 @@ export default class PageCurlExample {
         let w = this.app.viewW;
         let h = this.app.viewH;
 
-        this.flipMode = false;
+        this.PrePage = false;
 
         let nextPageTexture = new  PIXI.Texture(page1.texture, new PIXI.Rectangle(0-this.app.contentOffsetX, 0 , this.app.viewW, this.app.viewH));
         let page2 = PIXI.Sprite.from(nextPageTexture);
         let newTexture = app.renderer.generateTexture(page2);
 
         let filter = new AmoyPageCurlFilter(0.0,0.0,0.0,0.0, newTexture, 0.05)
-        filter.flipMode = this.flipMode;
+        filter.flipMode = this.PrePage;
         intro.filters =[filter]
 
         this.scene = scene;
@@ -62,10 +62,10 @@ export default class PageCurlExample {
         app.setAppViewAndRender(canvasWidth,canvasHeight);
         //ui
         this.app.exampleParamsFolderGui = this.app.gui.addFolder('Params');
-        this.app.exampleParamsFolderGui.add(this, "flipMode").onChange(function(value) {
+        this.app.exampleParamsFolderGui.add(this, "PrePage").onChange(function(value) {
             // Fires on every change, drag, keypress, etc.
-            this.flipMode = value;
-            filter.flipMode = this.flipMode;
+            this.PrePage = value;
+            filter.flipMode = this.PrePage;
         });
 
         let midW = w/2
