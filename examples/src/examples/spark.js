@@ -18,7 +18,7 @@ export default class SparkExample {
         let cloud_cover = PIXI.Sprite.from(app.resources.cloud_cover.texture);
         pageContainer.addChild(cloud_cover);
         cloud_cover.x = 10;
-        cloud_cover.y = 200;
+        cloud_cover.y = 195;
 
         scene.addChild(pageContainer);
 

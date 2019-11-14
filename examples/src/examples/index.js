@@ -13,3 +13,5 @@ export {default as Light2DExample} from './light2d';
 export {default as FluidExample} from './fluid'
 export {default as SparkExample} from './spark'
 export {default as PixelVibrationExample} from './pixel-vibration'
+export {default as ReflectionExample} from './reflection'
+export {default as WaterReflectionExample} from './water-reflection'

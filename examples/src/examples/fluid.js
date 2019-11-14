@@ -46,12 +46,11 @@ export default class FluidExample {
                 c.pivot = new PIXI.Point(.5, .5);
                 let xx = (i%10)*20+50;
                 let yy = 10+i*10;
-                let b = new Matter.Bodies.circle(xx, yy, 10, {isStatic:i==150})
+                let b = new Matter.Bodies.circle(xx, yy, 10)
 
                 Matter.World.add(world, [b]);
                 if(i==1)console.log(b.position.x);
                 pixiCirles.push({sprite:c, body:b});
-                // circles.push(b);
                 c.x = xx;
                 c.y = yy;
                 pageContainer.addChild(c);
@@ -63,9 +62,6 @@ export default class FluidExample {
             pixiCirles.forEach((circle, i) => {
                 // todo
                 circle.sprite.x = circle.body.position.x;
-                if(i==1){
-                    console.log(circle.body.position.x);
-                }
                 circle.sprite.y = circle.body.position.y;
             });
         }
