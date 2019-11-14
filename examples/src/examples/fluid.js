@@ -43,10 +43,10 @@ export default class FluidExample {
             for(var i=1; i< nums; i++){
                 let c = PIXI.Sprite.from(app.resources.ball.texture);
                 c.scale.set(2.0);
-                c.pivot = new PIXI.Point(.5, .5);
+                // c.pivot = new PIXI.Point(.5, .5);
                 let xx = (i%10)*20+50;
                 let yy = 10+i*10;
-                let b = new Matter.Bodies.circle(xx, yy, 10)
+                let b = new Matter.Bodies.circle(xx, yy, 20)
 
                 Matter.World.add(world, [b]);
                 if(i==1)console.log(b.position.x);

@@ -184,8 +184,8 @@
     }(PIXI$1.Application));
 
     /*!
-     * @amoy/filter-pixel-vibration - v3.0.10
-     * Compiled Mon, 11 Nov 2019 07:41:19 UTC
+     * @amoy/filter-pixel-vibration - v3.0.17
+     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
      *
      * @amoy/filter-pixel-vibration is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -281,8 +281,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-light2d - v3.0.10
-     * Compiled Mon, 11 Nov 2019 07:41:19 UTC
+     * @amoy/filter-light2d - v3.0.17
+     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
      *
      * @amoy/filter-light2d is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -358,8 +358,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-lens-halo - v3.0.9
-     * Compiled Mon, 11 Nov 2019 07:41:19 UTC
+     * @amoy/filter-lens-halo - v3.0.17
+     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
      *
      * @amoy/filter-lens-halo is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -452,8 +452,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-page-curl - v3.0.14
-     * Compiled Mon, 11 Nov 2019 07:41:19 UTC
+     * @amoy/filter-page-curl - v3.0.17
+     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
      *
      * @amoy/filter-page-curl is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -658,8 +658,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-sparks-drifting - v3.0.17
-     * Compiled Wed, 13 Nov 2019 03:26:01 UTC
+     * @amoy/filter-sparks-drifting - v3.0.19
+     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
      *
      * @amoy/filter-sparks-drifting is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -767,8 +767,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-gameboy-style - v3.0.9
-     * Compiled Mon, 11 Nov 2019 07:41:19 UTC
+     * @amoy/filter-gameboy-style - v3.0.17
+     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
      *
      * @amoy/filter-gameboy-style is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -812,8 +812,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-snow - v3.0.9
-     * Compiled Mon, 11 Nov 2019 07:41:19 UTC
+     * @amoy/filter-snow - v3.0.17
+     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
      *
      * @amoy/filter-snow is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -893,8 +893,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-light-sweep - v3.0.12
-     * Compiled Mon, 11 Nov 2019 07:41:19 UTC
+     * @amoy/filter-light-sweep - v3.0.17
+     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
      *
      * @amoy/filter-light-sweep is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -958,8 +958,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-reflection - v3.0.10
-     * Compiled Mon, 11 Nov 2019 07:41:19 UTC
+     * @amoy/filter-reflection - v3.0.17
+     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
      *
      * @amoy/filter-reflection is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -999,8 +999,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-water-reflection - v3.0.17
-     * Compiled Thu, 14 Nov 2019 02:11:03 UTC
+     * @amoy/filter-water-reflection - v3.0.20
+     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
      *
      * @amoy/filter-water-reflection is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -1059,7 +1059,7 @@
             this.uniforms.uTime = value;
         };
 
-         /**
+        /**
          * Vertical position of the reflection point, default is 50% (middle)
          * smaller numbers produce a larger reflection, larger numbers produce a smaller reflection.
          *
@@ -1079,8 +1079,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-weather-rainy - v3.0.9
-     * Compiled Mon, 11 Nov 2019 07:41:19 UTC
+     * @amoy/filter-weather-rainy - v3.0.17
+     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
      *
      * @amoy/filter-weather-rainy is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -1143,8 +1143,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-weather-cloud - v3.0.16
-     * Compiled Mon, 11 Nov 2019 07:41:19 UTC
+     * @amoy/filter-weather-cloud - v3.0.17
+     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
      *
      * @amoy/filter-weather-cloud is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -1212,8 +1212,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-inner-outline - v3.0.9
-     * Compiled Mon, 11 Nov 2019 07:41:19 UTC
+     * @amoy/filter-inner-outline - v3.0.17
+     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
      *
      * @amoy/filter-inner-outline is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -1251,7 +1251,7 @@
         AmoyInnerOutlineFilter.prototype = Object.create( Filter && Filter.prototype );
         AmoyInnerOutlineFilter.prototype.constructor = AmoyInnerOutlineFilter;
 
-        var prototypeAccessors = { delta: { configurable: true },color: { configurable: true } };
+        var prototypeAccessors = { color: { configurable: true },delta: { configurable: true } };
 
         /**
          * Override existing apply method in PIXI.Filter
@@ -1265,15 +1265,6 @@
             filterManager.applyFilter(this, input, output, clear);
         };
 
-        /**
-         * time for animation
-         *
-         * @member {number}
-         * @default 0.0
-         */
-        prototypeAccessors.delta.get = function () {
-            return this.uniforms.uTime;
-        };
 
         prototypeAccessors.color.get = function (){
             return this._color;
@@ -1286,6 +1277,16 @@
             this.uniforms.uColor[2] = value.b;
         };
 
+        /**
+         * time for animation
+         *
+         * @member {number}
+         * @default 0.0
+         */
+        prototypeAccessors.delta.get = function () {
+            return this.uniforms.uTime;
+        };
+
         prototypeAccessors.delta.set = function (value) {
             this.uniforms.uTime = value;
         };
@@ -1296,8 +1297,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-fluid - v3.0.17
-     * Compiled Tue, 12 Nov 2019 09:47:29 UTC
+     * @amoy/filter-fluid - v3.0.20
+     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
      *
      * @amoy/filter-fluid is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -1820,6 +1821,105 @@
         Object.defineProperties( AmoyFluidFilter.prototype, prototypeAccessors );
 
         return AmoyFluidFilter;
+    }(core.Filter));
+
+    /*!
+     * @amoy/filter-blood-splash - v3.0.21
+     * Compiled Thu, 14 Nov 2019 08:55:35 UTC
+     *
+     * @amoy/filter-blood-splash is licensed under the MIT License.
+     * http://www.opensource.org/licenses/mit-license
+     */
+
+    var vertex$c = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
+
+    var fragment$c = "varying vec2 vTextureCoord;//passed from vect shader \n\nuniform vec4 filterArea;\nuniform sampler2D uSampler;// 2d texture\n\nuniform float uPosx;\nuniform float uPosy;\nuniform float uTime;\nuniform vec3 uColor;\n\n#define SEED 0.12345679\n#define GRAV vec2(0.,-.26)\n#define SIZE 0.024\n#define DIE_TIME 0.9\n#define PARTICLE_COUNT 120.0\n#define PI 3.14159265359\n\nfloat rand (vec2 p) {\n    return fract(sin(dot(p.xy,vec2(6.8245,7.1248)))*9.1283);\n}\n\nfloat particle(vec2 uv, float identifier, vec2 anchor, vec2 velocity, float creationTime) {\n    float particleTime = max(0., uTime - creationTime);\n\n    float size = max(0., DIE_TIME - particleTime) * SIZE;\n\n    vec2 velocityOffset = velocity * particleTime;\n    vec2 gravityOffset = GRAV * pow(particleTime, 1.798);\n    \n    vec2 point = anchor + velocityOffset + gravityOffset;\n    \n    float dist = distance(uv, point);\n    float hit = smoothstep(size, 0., dist);\n    \n    return hit;\n}\n\nvec3 currentColor() {\n    float c = uTime * 0.2;\n    float r = sin(c * PI) / 2. + .5;\n    float g = sin((c + .6) * PI) / 2. + .5;\n    float b = sin((c + 1.2) * PI) / 2. + .5;\n    return vec3(r, g, b);\n}\n\nvoid main( )\n{\n    vec2 uv = vTextureCoord;\n    vec3 col = vec3(0.);\n\n    \n    for (float i = 0.0; i < PARTICLE_COUNT; i++) {\n        float seed = SEED + floor(i / PARTICLE_COUNT + uTime);\n\n        vec2 anchor = vec2(uPosx/filterArea.x, uPosy/filterArea.y);\n\n        vec2 velocity = vec2(mix(-.5, .5, rand(vec2(seed, i))), mix(-.5, .5, rand(vec2(i, seed) / 3.)));\n\n        float creationTime = uTime - fract(i / PARTICLE_COUNT + uTime);\n\n      col += particle(uv, 0., anchor, velocity, creationTime) * uColor;\n    }\n\n    col = smoothstep(.6, .9, col);\n\n    vec4 tc = texture2D(uSampler, vTextureCoord);\n    gl_FragColor = vec4(col, col.r)*col.r + tc*(1.0 -col.r);\n}";
+
+    /**
+     * @class
+     * @see {@link https://www.npmjs.com/package/@amoy/filter-light2d}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters}
+     * @extends PIXI.Filter
+     * @memberof AMOY.filters
+     * @param {number} [posx=10.0] light  x position
+     * @param {number} [posy=10.0] light  y position
+     */
+
+    var AmoyBloodSplashFilter = /*@__PURE__*/(function (Filter) {
+        function AmoyBloodSplashFilter(posx, posy, delta, color) {
+            if ( posx === void 0 ) { posx = 10.0; }
+            if ( posy === void 0 ) { posy = 10.0; }
+            if ( delta === void 0 ) { delta=0.; }
+            if ( color === void 0 ) { color={r:1.0, g:0, b:0}; }
+
+            Filter.call(this, vertex$c, fragment$c);
+            // sub class
+            this.posx = posx;
+            this.posy = posy;
+            this.delta = delta;
+            this.uniforms.uColor  = new Float32Array(3);
+            this._color = {r:color.r, g:color.g, b:color.b};
+
+        }
+
+        if ( Filter ) { AmoyBloodSplashFilter.__proto__ = Filter; }
+        AmoyBloodSplashFilter.prototype = Object.create( Filter && Filter.prototype );
+        AmoyBloodSplashFilter.prototype.constructor = AmoyBloodSplashFilter;
+
+        var prototypeAccessors = { posx: { configurable: true },color: { configurable: true },delta: { configurable: true } };
+
+        /**
+         * Override existing apply method in PIXI.Filter
+         * @private
+         */
+        AmoyBloodSplashFilter.prototype.apply = function apply (filterManager, input, output, clear) {
+            this.uniforms.uPosx = this.posx <= 0 ? 10.0 : this.posx;
+            this.uniforms.uPosy = this.posy <= 0 ? 10.0 : this.posy;
+            this.uniforms.uColor[0] = this._color.r;
+            this.uniforms.uColor[1] = this._color.g;
+            this.uniforms.uColor[2] = this._color.b;
+            filterManager.applyFilter(this, input, output, clear);
+        };
+
+        /**
+         * filter area point x
+         */
+        prototypeAccessors.posx.get = function () {
+            return this.uniforms.uPosx;
+        };
+
+        prototypeAccessors.posx.set = function (value) {
+            this.uniforms.uPosx = value;
+        };
+
+        prototypeAccessors.color.get = function (){
+            return this._color;
+        };
+
+        prototypeAccessors.color.set = function (value) {
+            this._color = value;
+            this.uniforms.uColor[0] = value.r;
+            this.uniforms.uColor[1] = value.g;
+            this.uniforms.uColor[2] = value.b;
+        };
+
+        /**
+         * time for animation
+         *
+         * @member {number}
+         * @default 0.0
+         */
+        prototypeAccessors.delta.get = function () {
+            return this.uniforms.uTime;
+        };
+
+        prototypeAccessors.delta.set = function (value) {
+            this.uniforms.uTime = value;
+        };
+
+        Object.defineProperties( AmoyBloodSplashFilter.prototype, prototypeAccessors );
+
+        return AmoyBloodSplashFilter;
     }(core.Filter));
 
     /*!
@@ -10384,10 +10484,10 @@
             for(var i=1; i< nums; i++){
                 var c = PIXI$1.Sprite.from(app.resources.ball.texture);
                 c.scale.set(2.0);
-                c.pivot = new PIXI$1.Point(.5, .5);
+                // c.pivot = new PIXI.Point(.5, .5);
                 var xx = (i%10)*20+50;
                 var yy = 10+i*10;
-                var b = new Matter.Bodies.circle(xx, yy, 10);
+                var b = new Matter.Bodies.circle(xx, yy, 20);
 
                 Matter.World.add(world, [b]);
                 if(i==1){ console.log(b.position.x); }
@@ -10609,6 +10709,44 @@
         this.scene.parent.removeChild(this.scene);
     };
 
+    var BloodSplashExample = function BloodSplashExample(app){
+        this.app = app;
+        this.app.example = this;
+            
+        var scene = new PIXI$1.Container();
+
+        var pageContainer = new PIXI$1.Container();
+
+        var fly = PIXI$1.Sprite.from(app.resources.bird_small.texture);
+        fly.x = 150;
+        fly.y = 150;
+        pageContainer.addChild(fly);
+
+        scene.addChild(pageContainer);
+
+        
+        var w = 400;
+        var h = 400;
+
+        this.scene = scene;
+        this.filter = filter;
+
+        app.stage.addChild(this.scene);
+        app.renderer.resize(w, h);
+        app.setAppViewAndRender(w,h);
+
+        var filter = new AmoyBloodSplashFilter(80, 50, 0, {r:1.0, g:0., b:0.});
+        fly.filters =[filter];
+
+        app.events.on('animate', function() {
+            filter.uniforms.uTime += 0.02;
+        });
+    };
+
+    BloodSplashExample.prototype.destroy = function destroy (){
+        this.scene.parent.removeChild(this.scene);
+    };
+
 
 
     var examples = /*#__PURE__*/Object.freeze({
@@ -10626,7 +10764,8 @@
         SparkExample: SparkExample,
         PixelVibrationExample: PixelVibrationExample,
         ReflectionExample: ReflectionExample,
-        WaterReflectionExample: WaterReflectionExample
+        WaterReflectionExample: WaterReflectionExample,
+        BloodSplashExample: BloodSplashExample
     });
 
     var EXAMPLES = [];
@@ -10654,7 +10793,8 @@
         { name: 'spark', url: 'assets/sparks.jpg' },
         { name: 'ball1', url: 'assets/ball1.png' },
         { name: 'floor', url: 'assets/floor.jpeg' },
-        { name: 'house', url: 'assets/house.jpg' } ];
+        { name: 'house', url: 'assets/house.jpg' },
+        { name: 'bird_small', url: 'assets/bird.png' } ];
 
 
     // Load resources then add filters

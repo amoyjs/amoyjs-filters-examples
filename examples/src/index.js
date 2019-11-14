@@ -26,6 +26,7 @@ const manifest = [
     { name: 'ball1', url: 'assets/ball1.png' },
     { name: 'floor', url: 'assets/floor.jpeg' },
     { name: 'house', url: 'assets/house.jpg' },
+    { name: 'bird_small', url: 'assets/bird.png' },
 ];
 
 
