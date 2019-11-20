@@ -31,8 +31,6 @@ export default class CloudExample {
         anim.play();
     
         scene.addChild(anim);
-
-    
         let w = pic_bg.width;
         let h = pic_bg.height;
 

@@ -1825,7 +1825,7 @@
 
     /*!
      * @amoy/filter-blood-splash - v3.0.21
-     * Compiled Thu, 14 Nov 2019 08:55:35 UTC
+     * Compiled Thu, 14 Nov 2019 08:59:20 UTC
      *
      * @amoy/filter-blood-splash is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -1920,6 +1920,106 @@
         Object.defineProperties( AmoyBloodSplashFilter.prototype, prototypeAccessors );
 
         return AmoyBloodSplashFilter;
+    }(core.Filter));
+
+    /*!
+     * @amoy/filter-magnify - v3.0.21
+     * Compiled Mon, 18 Nov 2019 06:54:00 UTC
+     *
+     * @amoy/filter-magnify is licensed under the MIT License.
+     * http://www.opensource.org/licenses/mit-license
+     */
+
+    var vertex$d = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
+
+    var fragment$d = "varying vec2 vTextureCoord;//passed from vect shader \n\nuniform vec4 filterArea;\nuniform sampler2D uSampler;// 2d texture\n\nuniform float uPosx;\nuniform float uPosy;\n\nuniform float uMagnification;\nuniform float uLensRadius;\n\n\nconst float border_thickness = 0.01;\n\nvoid main( )\n{   \n    //Convert to UV coordinates, accounting for aspect ratio\n    vec2 uv = vTextureCoord;\n    float aspect = filterArea.x / filterArea.y;\n    uv.x = uv.x * aspect;\n\n    float lens_radius = uLensRadius / filterArea.y;\n    float magnification = uMagnification;\n    \n    //at the beginning of the sketch, center the magnifying glass.\n    //Thanks to FabriceNeyret2 for the suggestion\n    vec2 mouse = vec2(uPosx, uPosy);\n    if (mouse == vec2(0.0)) {\n        mouse = filterArea.xy / 2.0;\n    }\n    \n    //UV coordinates of mouse\n    vec2 mouse_uv = mouse / filterArea.y;\n    \n    //Distance to mouse\n    float mouse_dist = distance(uv, mouse_uv);\n    \n    //Draw the texture\n\tgl_FragColor = texture2D(uSampler, vTextureCoord);\n    \n    //Draw the outline of the glass\n    if (mouse_dist < lens_radius + border_thickness) {\n        gl_FragColor = vec4(0.1, 0.1, 0.1, 1.0);\n    }\n    \n    //Draw a zoomed-in version of the texture\n    if (mouse_dist < lens_radius) {\n        uv.x = uv.x / aspect;\n        mouse_uv.x = mouse_uv.x / aspect;\n        \n        gl_FragColor = texture2D(uSampler, mouse_uv + (uv - mouse_uv) / magnification);\n    }    \n}";
+
+    /**
+     * @class
+     * @see {@link https://www.npmjs.com/package/@amoy/filter-magnify}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters}
+     * @extends PIXI.Filter
+     * @memberof AMOY.filters
+     * @param {number} [posx=10.0] light  x position
+     * @param {number} [posy=10.0] light  y position
+     * @param {number} [magnification=2.0] magnification
+     * @param {number} [lensRadius=10.0] lensRadius
+     */
+
+    var AmoyMagnifyFilter = /*@__PURE__*/(function (Filter) {
+        function AmoyMagnifyFilter(posx, posy, magnification, lensRadius) {
+            if ( posx === void 0 ) { posx = 10.0; }
+            if ( posy === void 0 ) { posy = 10.0; }
+            if ( magnification === void 0 ) { magnification=2.0; }
+            if ( lensRadius === void 0 ) { lensRadius=50.; }
+
+            Filter.call(this, vertex$d, fragment$d);
+            // sub class
+            this.posx = posx;
+            this.posy = posy;
+            this.magnification = magnification;
+            this.lensRadius = lensRadius;
+        }
+
+        if ( Filter ) { AmoyMagnifyFilter.__proto__ = Filter; }
+        AmoyMagnifyFilter.prototype = Object.create( Filter && Filter.prototype );
+        AmoyMagnifyFilter.prototype.constructor = AmoyMagnifyFilter;
+
+        var prototypeAccessors = { posx: { configurable: true },posy: { configurable: true },magnification: { configurable: true },lensRadius: { configurable: true } };
+
+        /**
+         * Override existing apply method in PIXI.Filter
+         * @private
+         */
+        AmoyMagnifyFilter.prototype.apply = function apply (filterManager, input, output, clear) {
+            this.uniforms.uMagnification =  this.magnification;
+            this.uniforms.uLensRadius =  this.lensRadius;
+            this.uniforms.uPosx = this.posx <= 0 ? 10.0 : this.posx;
+            this.uniforms.uPosy = this.posy <= 0 ? 10.0 : this.posy;
+            filterManager.applyFilter(this, input, output, clear);
+        };
+
+        /**
+         * center x pos of lens circle
+         */
+        prototypeAccessors.posx.get = function () {
+            return this.uniforms.uPosx;
+        };
+
+        prototypeAccessors.posx.set = function (value) {
+            this.uniforms.uPosx = value;
+        };
+
+        /**
+         * center y pos of lens circle
+         */
+        prototypeAccessors.posy.get = function () {
+            return this.uniforms.uPosy;
+        };
+
+        prototypeAccessors.posy.set = function (value) {
+            this.uniforms.uPosy = value;
+        };
+
+        prototypeAccessors.magnification.get = function () {
+            return this.uniforms.uMagnification;
+        };
+
+        prototypeAccessors.magnification.set = function (value) {
+            this.uniforms.uMagnification = value;
+        };
+
+        prototypeAccessors.lensRadius.get = function () {
+            return this.uniforms.uLensRadius;
+        };
+
+        prototypeAccessors.lensRadius.set = function (value) {
+            this.uniforms.uLensRadius = value;
+        };
+
+        Object.defineProperties( AmoyMagnifyFilter.prototype, prototypeAccessors );
+
+        return AmoyMagnifyFilter;
     }(core.Filter));
 
     /*!
@@ -10354,8 +10454,6 @@
         anim.play();
         
         scene.addChild(anim);
-
-        
         var w = pic_bg.width;
         var h = pic_bg.height;
 
@@ -10747,6 +10845,77 @@
         this.scene.parent.removeChild(this.scene);
     };
 
+    var CrossProcessingExample = function CrossProcessingExample(app){
+        this.app = app;
+        this.app.example = this;
+            
+        var scene = new PIXI$1.Container();
+
+        var pageContainer = new PIXI$1.Container();
+
+        var pic = PIXI$1.Sprite.from(app.resources.girl.texture);
+        pageContainer.addChild(pic);
+            
+        scene.addChild(pageContainer);
+        
+        var w = pic.width;
+        var h = pic.height;
+
+        this.scene = scene;
+        this.filter = filter;
+
+        app.stage.addChild(this.scene);
+        app.renderer.resize(w, h);
+        app.setAppViewAndRender(w,h);
+
+        var filter = new PIXI$1.Filter(null, app.resources.shader.data, {
+            crossSampler: app.resources.cross.texture,
+        });
+        pageContainer.filters =[filter];
+    };
+
+    CrossProcessingExample.prototype.destroy = function destroy (){
+        this.scene.parent.removeChild(this.scene);
+    };
+
+    var MagnifyExample = function MagnifyExample(app){
+        this.app = app;
+        this.app.example = this;
+            
+        var scene = new PIXI$1.Container();
+
+        var pageContainer = new PIXI$1.Container();
+
+        var pic = PIXI$1.Sprite.from(app.resources.map.texture);
+        pageContainer.addChild(pic);
+            
+        scene.addChild(pageContainer);
+        
+        var w = pic.width;
+        var h = pic.height;
+
+        this.scene = scene;
+        this.filter = filter;
+
+        app.stage.addChild(this.scene);
+        app.renderer.resize(w, h);
+        app.setAppViewAndRender(w,h);
+
+        var filter = new AmoyMagnifyFilter(500., 400., 2.0 , 80);
+        pageContainer.filters =[filter];
+        var iTime = 0.0;
+
+        app.events.on('animate', function() {
+            iTime++;
+            filter.posx = 500 + 300*Math.sin(iTime*.02);
+        });
+
+    };
+
+    MagnifyExample.prototype.destroy = function destroy (){
+        this.scene.parent.removeChild(this.scene);
+    };
+
 
 
     var examples = /*#__PURE__*/Object.freeze({
@@ -10765,7 +10934,9 @@
         PixelVibrationExample: PixelVibrationExample,
         ReflectionExample: ReflectionExample,
         WaterReflectionExample: WaterReflectionExample,
-        BloodSplashExample: BloodSplashExample
+        BloodSplashExample: BloodSplashExample,
+        CrossProcessingExample: CrossProcessingExample,
+        MagnifyExample: MagnifyExample
     });
 
     var EXAMPLES = [];
@@ -10794,7 +10965,11 @@
         { name: 'ball1', url: 'assets/ball1.png' },
         { name: 'floor', url: 'assets/floor.jpeg' },
         { name: 'house', url: 'assets/house.jpg' },
-        { name: 'bird_small', url: 'assets/bird.png' } ];
+        { name: 'bird_small', url: 'assets/bird.png' },
+        { name: 'fish_sprites', url: 'assets/fish_frame_23.json' },
+        {name: 'shader', url:'assets/cross_process.frag'},
+        {name:"cross", url:'assets/cross_processing.png'},
+        {name:"girl", url:'assets/girl.jpg'} ];
 
 
     // Load resources then add filters
