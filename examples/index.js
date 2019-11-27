@@ -184,8 +184,8 @@
     }(PIXI$1.Application));
 
     /*!
-     * @amoy/filter-pixel-vibration - v3.0.17
-     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
+     * @amoy/filter-pixel-vibration - v3.0.21
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
      *
      * @amoy/filter-pixel-vibration is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -281,8 +281,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-light2d - v3.0.17
-     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
+     * @amoy/filter-light2d - v3.0.21
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
      *
      * @amoy/filter-light2d is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -358,8 +358,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-lens-halo - v3.0.17
-     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
+     * @amoy/filter-lens-halo - v3.0.21
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
      *
      * @amoy/filter-lens-halo is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -452,8 +452,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-page-curl - v3.0.17
-     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
+     * @amoy/filter-page-curl - v3.0.21
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
      *
      * @amoy/filter-page-curl is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -658,8 +658,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-sparks-drifting - v3.0.19
-     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
+     * @amoy/filter-sparks-drifting - v3.0.21
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
      *
      * @amoy/filter-sparks-drifting is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -767,8 +767,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-gameboy-style - v3.0.17
-     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
+     * @amoy/filter-gameboy-style - v3.0.21
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
      *
      * @amoy/filter-gameboy-style is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -812,8 +812,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-snow - v3.0.17
-     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
+     * @amoy/filter-snow - v3.0.21
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
      *
      * @amoy/filter-snow is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -893,8 +893,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-light-sweep - v3.0.17
-     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
+     * @amoy/filter-light-sweep - v3.0.21
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
      *
      * @amoy/filter-light-sweep is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -958,8 +958,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-reflection - v3.0.17
-     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
+     * @amoy/filter-reflection - v3.0.21
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
      *
      * @amoy/filter-reflection is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -999,8 +999,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-water-reflection - v3.0.20
-     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
+     * @amoy/filter-water-reflection - v3.0.21
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
      *
      * @amoy/filter-water-reflection is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -1079,8 +1079,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-weather-rainy - v3.0.17
-     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
+     * @amoy/filter-weather-rainy - v3.0.21
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
      *
      * @amoy/filter-weather-rainy is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -1143,8 +1143,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-weather-cloud - v3.0.17
-     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
+     * @amoy/filter-weather-cloud - v3.0.21
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
      *
      * @amoy/filter-weather-cloud is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -1212,8 +1212,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-inner-outline - v3.0.17
-     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
+     * @amoy/filter-inner-outline - v3.0.21
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
      *
      * @amoy/filter-inner-outline is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -1297,8 +1297,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-fluid - v3.0.20
-     * Compiled Thu, 14 Nov 2019 07:59:55 UTC
+     * @amoy/filter-fluid - v3.0.24
+     * Compiled Wed, 27 Nov 2019 03:13:09 UTC
      *
      * @amoy/filter-fluid is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -1761,13 +1761,15 @@
      * @see {@link https://www.npmjs.com/package/@amoy/filters}
      * @extends PIXI.Filter
      * @memberof PIXI.filters
-     * @param {number} [strength=15] - The maximum size of the tilesize is 64
+     * @param {number} [strength=15] - the strength of blur
      */
     var AmoyFluidFilter = /*@__PURE__*/(function (Filter) {
         function AmoyFluidFilter(strength) {
             Filter.call(this);
             this._blurFilter = new PIXI.filters.BlurFilter(strength || 15);
             this._colFilter = new PIXI.filters.ColorMatrixFilter();
+
+            //use this matrix to change alpha value
             this._colFilter.matrix = [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 100, -12];
             this.resolution = settings.RESOLUTION;
 
@@ -1786,11 +1788,9 @@
          */
         AmoyFluidFilter.prototype.apply = function apply (filterManager, input, output) {
             var renderTarget = filterManager.getFilterTexture();
-
             var renderTarget1 = filterManager.getFilterTexture(input);
 
             this._blurFilter.apply(filterManager, input, renderTarget, true);
-
             this._colFilter.apply(filterManager, renderTarget, renderTarget1, true);
 
             filterManager.applyFilter(this, renderTarget1, output, false);
@@ -1807,6 +1807,7 @@
         prototypeAccessors.resolution.get = function () {
             return this._resolution;
         };
+
         prototypeAccessors.resolution.set = function (value) {
             this._resolution = value;
 
@@ -1824,8 +1825,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-blood-splash - v3.0.21
-     * Compiled Thu, 14 Nov 2019 08:59:20 UTC
+     * @amoy/filter-blood-splash - v3.0.24
+     * Compiled Wed, 27 Nov 2019 03:13:09 UTC
      *
      * @amoy/filter-blood-splash is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -1837,7 +1838,7 @@
 
     /**
      * @class
-     * @see {@link https://www.npmjs.com/package/@amoy/filter-light2d}
+     * @see {@link https://www.npmjs.com/package/@amoy/filter-blood-splash}
      * @see {@link https://www.npmjs.com/package/@amoy/filters}
      * @extends PIXI.Filter
      * @memberof AMOY.filters
@@ -1883,6 +1884,7 @@
 
         /**
          * filter area point x
+         * @member {number}
          */
         prototypeAccessors.posx.get = function () {
             return this.uniforms.uPosx;
@@ -1892,6 +1894,10 @@
             this.uniforms.uPosx = value;
         };
 
+        /**
+         *  the color of blood
+         * @member {object}
+         */
         prototypeAccessors.color.get = function (){
             return this._color;
         };
@@ -1923,8 +1929,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-magnify - v3.0.21
-     * Compiled Mon, 18 Nov 2019 06:54:00 UTC
+     * @amoy/filter-magnify - v3.0.23
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
      *
      * @amoy/filter-magnify is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -2020,6 +2026,187 @@
         Object.defineProperties( AmoyMagnifyFilter.prototype, prototypeAccessors );
 
         return AmoyMagnifyFilter;
+    }(core.Filter));
+
+    /*!
+     * @amoy/filter-fisheye - v1.0.0
+     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
+     *
+     * @amoy/filter-fisheye is licensed under the MIT License.
+     * http://www.opensource.org/licenses/mit-license
+     */
+
+    var vertex$e = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
+
+    var fragment$e = "varying vec2 vTextureCoord;//passed from vect shader \n\nuniform vec4 filterArea;\nuniform sampler2D uSampler;// 2d texture\n\nconst float PI = 3.1415926535;\n\nvoid main(void)\n{\n    float aperture = 178.0;\n    float apertureHalf = 0.5 * aperture * (PI / 180.0);\n    float maxFactor = sin(apertureHalf);\n    \n    vec2 uv;\n    vec2 xy = 2.0 * vTextureCoord.xy - 1.0;\n    float d = length(xy);\n    if (d < (2.0-maxFactor))\n    {\n        d = length(xy * maxFactor);\n        float z = sqrt(1.0 - d * d);\n        float r = atan(d, z) / PI;\n        float phi = atan(xy.y, xy.x);\n        \n        uv.x = r * cos(phi) + 0.5;\n        uv.y = r * sin(phi) + 0.5;\n    }\n    else\n    {\n        uv = vTextureCoord.xy;\n    }\n    vec4 c = texture2D(uSampler, uv);\n\n    gl_FragColor= c;\n}";
+
+    /**
+     * @class
+     * @see {@link https://www.npmjs.com/package/@amoy/filter-fisheye}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters}
+     * @extends PIXI.Filter
+     * @memberof AMOY.filters
+     */
+
+    var AmoyFishEyeFilter = /*@__PURE__*/(function (Filter) {
+        function AmoyFishEyeFilter() {
+            Filter.call(this, vertex$e, fragment$e);
+
+        }
+
+        if ( Filter ) { AmoyFishEyeFilter.__proto__ = Filter; }
+        AmoyFishEyeFilter.prototype = Object.create( Filter && Filter.prototype );
+        AmoyFishEyeFilter.prototype.constructor = AmoyFishEyeFilter;
+
+        /**
+         * Override existing apply method in PIXI.Filter
+         * @private
+         */
+        AmoyFishEyeFilter.prototype.apply = function apply (filterManager, input, output, clear) {
+            filterManager.applyFilter(this, input, output, clear);
+        };
+
+        return AmoyFishEyeFilter;
+    }(core.Filter));
+
+    /*!
+     * @amoy/filter-barrel-distortion - v3.0.24
+     * Compiled Wed, 27 Nov 2019 03:13:09 UTC
+     *
+     * @amoy/filter-barrel-distortion is licensed under the MIT License.
+     * http://www.opensource.org/licenses/mit-license
+     */
+
+    var vertex$f = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
+
+    var fragment$f = "varying vec2 vTextureCoord;//passed from vect shader\n\nuniform vec4 filterArea;\nuniform sampler2D uSampler;// 2d texture\n\nuniform float uBarrelPower;\n\nvec2 Distort(vec2 p)\n{\n    float theta=atan(p.y,p.x);\n    float radius=length(p);\n    radius=pow(radius,uBarrelPower);\n    p.x=radius*cos(theta);\n    p.y=radius*sin(theta);\n    return .5*(p+1.);\n}\n\nvoid main()\n{\n    vec2 xy=2.*vTextureCoord.xy-1.;\n    vec2 uv;\n    float d=length(xy);\n    if(d<1.)\n    {\n        uv=Distort(xy);\n    }\n    else\n    {\n        uv=vTextureCoord.xy;\n    }\n    vec4 c=texture2D(uSampler,uv);\n    gl_FragColor=c;\n}";
+
+    /**
+     * @class
+     * @see {@link https://www.npmjs.com/package/@amoy/filter-barreldistortion}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters}
+     * @extends PIXI.Filter
+     * @memberof AMOY.filters
+     */
+
+    var AmoyBarrelDistortionFilter = /*@__PURE__*/(function (Filter) {
+        function AmoyBarrelDistortionFilter(barrelPower) {
+            if ( barrelPower === void 0 ) { barrelPower=2.0; }
+
+            Filter.call(this, vertex$f, fragment$f);
+            this.barrelPower = barrelPower;
+        }
+
+        if ( Filter ) { AmoyBarrelDistortionFilter.__proto__ = Filter; }
+        AmoyBarrelDistortionFilter.prototype = Object.create( Filter && Filter.prototype );
+        AmoyBarrelDistortionFilter.prototype.constructor = AmoyBarrelDistortionFilter;
+
+        var prototypeAccessors = { barrelPower: { configurable: true } };
+
+        /**
+         * Override existing apply method in PIXI.Filter
+         * @private
+         */
+        AmoyBarrelDistortionFilter.prototype.apply = function apply (filterManager, input, output, clear) {
+            this.uniforms.uBarrelPower = this.barrelPower;
+            filterManager.applyFilter(this, input, output, clear);
+        };
+
+        /**
+         * barrelPower , the strength of distortion
+         * @member {number}
+         */
+        prototypeAccessors.barrelPower.get = function () {
+            return this.uniforms.uBarrelPower;
+        };
+
+        prototypeAccessors.barrelPower.set = function (value) {
+            this.uniforms.uBarrelPower = value;
+        };
+
+        Object.defineProperties( AmoyBarrelDistortionFilter.prototype, prototypeAccessors );
+
+        return AmoyBarrelDistortionFilter;
+    }(core.Filter));
+
+    /*!
+     * @amoy/filter-clear-background - v3.0.27
+     * Compiled Wed, 27 Nov 2019 07:37:10 UTC
+     *
+     * @amoy/filter-clear-background is licensed under the MIT License.
+     * http://www.opensource.org/licenses/mit-license
+     */
+
+    var vertex$g = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
+
+    var fragment$g = "varying vec2 vTextureCoord;//passed from vect shader \n\nuniform vec4 filterArea;\nuniform sampler2D uSampler;// 2d texture\n\nuniform vec3 uColor;\nuniform float uOffset;\n\n\nvec3 rgb2hsl(vec3 rgb)\n{\n    float h;\n    float s;\n    float l;\n\n    float maxval = max(rgb.r , max(rgb.g, rgb.b));\n    float minval = min(rgb.r, min(rgb.g, rgb.b));\n    float delta = maxval - minval;\n \n    l = (minval + maxval) / 2.0;\n    s = 0.0;\n    if (l > 0.0 && l < 1.0)\n        s = delta / (l < 0.5 ? 2.0 * l : 2.0 - 2.0 * l);\n    h = 0.0;\n    if (delta > 0.0)\n    {\n        if (rgb.r == maxval && rgb.g != maxval)\n            h += (rgb.g - rgb.b ) / delta;\n        if (rgb.g == maxval && rgb.b != maxval)\n            h += 2.0  + (rgb.b - rgb.r) / delta;\n        if (rgb.b == maxval && rgb.r != maxval)\n            h += 4.0 + (rgb.r - rgb.g) / delta;\n        h *= 60.0;\n    }\n\n    return vec3(h,s,l);\n}\n\n\nvoid main( )\n{\n    vec2 uv = vTextureCoord;\n    vec4 c = texture2D(uSampler, vTextureCoord);\n\n    vec3 hsl;\n    hsl = rgb2hsl(c.rgb);\n\n    vec3 hsl1;\n    hsl1 = rgb2hsl(uColor);\n\n    float a = 1.;\n    if(abs(hsl.x - hsl1.x) < uOffset &&(abs(hsl.y - hsl1.y) < uOffset) && (abs(hsl.z - hsl1.z) < uOffset)){\n        a = 0.0;\n    }\n\n    c *= a;\n    gl_FragColor = c;\n}";
+
+    /**
+     * @class
+     * @see {@link https://www.npmjs.com/package/@amoy/filter-clear-background}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters}
+     * @extends PIXI.Filter
+     * @memberof AMOY.filters
+     * @param {number} [posx=10.0] light  x position
+     * @param {number} [posy=10.0] light  y position
+     */
+
+    var AmoyClearBackgroundFilter = /*@__PURE__*/(function (Filter) {
+        function AmoyClearBackgroundFilter(color, offset) {
+            if ( color === void 0 ) { color={r:1.0, g:0, b:0}; }
+            if ( offset === void 0 ) { offset=0.15; }
+
+            Filter.call(this, vertex$g, fragment$g);
+            // sub class
+            this.uniforms.uColor  = new Float32Array(3);
+            this.offset = offset;
+            this._color = {r:color.r, g:color.g, b:color.b};
+        }
+
+        if ( Filter ) { AmoyClearBackgroundFilter.__proto__ = Filter; }
+        AmoyClearBackgroundFilter.prototype = Object.create( Filter && Filter.prototype );
+        AmoyClearBackgroundFilter.prototype.constructor = AmoyClearBackgroundFilter;
+
+        var prototypeAccessors = { color: { configurable: true },offset: { configurable: true } };
+
+        /**
+         * Override existing apply method in PIXI.Filter
+         * @private
+         */
+        AmoyClearBackgroundFilter.prototype.apply = function apply (filterManager, input, output, clear) {
+            this.uniforms.uColor[0] = this._color.r;
+            this.uniforms.uColor[1] = this._color.g;
+            this.uniforms.uColor[2] = this._color.b;
+            this.uniforms.uOffset = this.offset;
+            filterManager.applyFilter(this, input, output, clear);
+        };
+
+        /**
+         *  the color is need to be removed
+         * @member {object}
+         */
+        prototypeAccessors.color.get = function (){
+            return this._color;
+        };
+
+        prototypeAccessors.color.set = function (value) {
+            this._color = value;
+            this.uniforms.uColor[0] = value.r;
+            this.uniforms.uColor[1] = value.g;
+            this.uniforms.uColor[2] = value.b;
+        };
+
+        prototypeAccessors.offset.get = function (){
+            return this.uniforms.uOffset;
+        };
+
+        prototypeAccessors.offset.set = function (value) {
+            this.uniforms.uOffset = value;
+        };
+
+        Object.defineProperties( AmoyClearBackgroundFilter.prototype, prototypeAccessors );
+
+        return AmoyClearBackgroundFilter;
     }(core.Filter));
 
     /*!
@@ -10437,6 +10624,15 @@
         var pic_bg = PIXI$1.Sprite.from(app.resources.cloud_bg.texture);
         pageContainer.addChild(pic_bg);
 
+        var b = PIXI$1.Sprite.from(app.resources.bird.texture);
+        b.scale.set(.35);
+        pageContainer.addChild(b);
+
+        var ball = PIXI$1.Sprite.from(app.resources.ball1.texture);//src
+        pageContainer.addChild(ball);
+        ball.blendMode = PIXI$1.BLEND_MODES.MULTIPLY;
+
+
         scene.addChild(pageContainer);
 
         var anim = new PIXI$1.AnimatedSprite([app.resources.bird.texture, app.resources.bird1.texture]);
@@ -10916,6 +11112,119 @@
         this.scene.parent.removeChild(this.scene);
     };
 
+    var FishEyeExample = function FishEyeExample(app){
+        this.app = app;
+        this.app.example = this;
+            
+        var scene = new PIXI$1.Container();
+
+        var pageContainer = new PIXI$1.Container();
+
+        var pic = PIXI$1.Sprite.from(app.resources.map.texture);
+        pageContainer.addChild(pic);
+            
+        scene.addChild(pageContainer);
+        
+        var w = pic.width;
+        var h = pic.height;
+
+        this.scene = scene;
+        this.filter = filter;
+
+        app.stage.addChild(this.scene);
+        app.renderer.resize(w, h);
+        app.setAppViewAndRender(w,h);
+
+        var filter = new AmoyFishEyeFilter();
+        pageContainer.filters =[filter];
+    };
+
+    FishEyeExample.prototype.destroy = function destroy (){
+        this.scene.parent.removeChild(this.scene);
+    };
+
+    var BarrelDistortionExample = function BarrelDistortionExample(app){
+        this.app = app;
+        this.app.example = this;
+            
+        var scene = new PIXI$1.Container();
+
+        var pageContainer = new PIXI$1.Container();
+
+        var pic = PIXI$1.Sprite.from(app.resources.map.texture);
+        pageContainer.addChild(pic);
+            
+        scene.addChild(pageContainer);
+
+        var filter = new AmoyBarrelDistortionFilter(this.barrelPower);
+
+        this.barrelPower = 1.5;
+        //ui
+        this.app.exampleParamsFolderGui = this.app.gui.addFolder('Params');
+        this.app.exampleParamsFolderGui.add(this, "barrelPower", 0, 2.0).onChange(function(value) {
+            // Fires on every change, drag, keypress, etc.
+            this.barrelPower = value;
+            filter.barrelPower = this.barrelPower;
+        });
+
+        
+        var w = pic.width;
+        var h = pic.height;
+
+        this.scene = scene;
+        this.filter = filter;
+
+        app.stage.addChild(this.scene);
+        app.renderer.resize(w, h);
+        app.setAppViewAndRender(w,h);
+
+        pageContainer.filters =[filter];
+    };
+
+    BarrelDistortionExample.prototype.destroy = function destroy (){
+        this.scene.parent.removeChild(this.scene);
+    };
+
+    var ClearBackgroundExample = function ClearBackgroundExample(app){
+        this.app = app;
+        this.app.example = this;
+            
+        var scene = new PIXI$1.Container();
+
+        var pageContainer = new PIXI$1.Container();
+        scene.addChild(pageContainer);
+
+        var pic_bg = PIXI$1.Sprite.from(app.resources.underwater.texture);
+        pic_bg.scale.set(.8);
+        pageContainer.addChild(pic_bg);
+
+        var texture = PIXI$1.Texture.from('assets/7023.mp4');
+        var fish = PIXI$1.Sprite.from(texture);
+        // fish.pivot = new PIXI.Point(.5, .5);
+        fish.position.x =120;
+        fish.position.y =120;
+        pageContainer.addChild(fish);
+
+        var w = pic_bg.width;
+        var h = pic_bg.height;
+
+        this.scene = scene;
+        this.filter = filter;
+
+        app.stage.addChild(this.scene);
+        app.renderer.resize(w, h);
+        app.setAppViewAndRender(w, h);
+
+        var filter = new AmoyClearBackgroundFilter({r:0.0, g:0.58, b:0.17});
+        filter.uniforms.uOffset = 10.0;
+        fish.filters =[filter];
+
+    };
+
+    ClearBackgroundExample.prototype.destroy = function destroy (){
+        this.scene.parent.removeChild(this.scene);
+    };
+
 
 
     var examples = /*#__PURE__*/Object.freeze({
@@ -10936,7 +11245,10 @@
         WaterReflectionExample: WaterReflectionExample,
         BloodSplashExample: BloodSplashExample,
         CrossProcessingExample: CrossProcessingExample,
-        MagnifyExample: MagnifyExample
+        MagnifyExample: MagnifyExample,
+        FishEyeExample: FishEyeExample,
+        BarrelDistortionExample: BarrelDistortionExample,
+        ClearBackgroundExample: ClearBackgroundExample
     });
 
     var EXAMPLES = [];
@@ -10966,10 +11278,10 @@
         { name: 'floor', url: 'assets/floor.jpeg' },
         { name: 'house', url: 'assets/house.jpg' },
         { name: 'bird_small', url: 'assets/bird.png' },
-        { name: 'fish_sprites', url: 'assets/fish_frame_23.json' },
         {name: 'shader', url:'assets/cross_process.frag'},
         {name:"cross", url:'assets/cross_processing.png'},
-        {name:"girl", url:'assets/girl.jpg'} ];
+        {name:"girl", url:'assets/girl.jpg'},
+        {name:"underwater", url:'assets/underwater.jpg'} ];
 
 
     // Load resources then add filters

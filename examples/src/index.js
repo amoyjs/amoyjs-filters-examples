@@ -30,6 +30,7 @@ const manifest = [
     {name: 'shader', url:'assets/cross_process.frag'},
     {name:"cross", url:'assets/cross_processing.png'},
     {name:"girl", url:'assets/girl.jpg'},
+    {name:"underwater", url:'assets/underwater.jpg'},
 ];
 
 

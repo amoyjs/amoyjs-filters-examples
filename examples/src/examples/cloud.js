@@ -14,6 +14,15 @@ export default class CloudExample {
         let pic_bg = PIXI.Sprite.from(app.resources.cloud_bg.texture);
         pageContainer.addChild(pic_bg);
 
+        let b = PIXI.Sprite.from(app.resources.bird.texture);
+        b.scale.set(.35);
+        pageContainer.addChild(b);
+
+        let ball = PIXI.Sprite.from(app.resources.ball1.texture);//src
+        pageContainer.addChild(ball);
+        ball.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+
+
         scene.addChild(pageContainer);
 
         const anim = new PIXI.AnimatedSprite([app.resources.bird.texture, app.resources.bird1.texture]);
