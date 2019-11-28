@@ -16,8 +16,17 @@ export default class ClearBackgroundExample {
         pic_bg.scale.set(.8);
         pageContainer.addChild(pic_bg);
 
-        let texture = PIXI.Texture.from('assets/7023.mp4');
-        let fish = PIXI.Sprite.from(texture);
+        // let texture = PIXI.Texture.from('assets/7023.mp4');
+
+
+        var video = document.createElement("video");
+        video.preload = "auto";
+        video.loop = true;              // enable looping
+        video.src = "assets/7023.mp4";
+        video.autoplay = true;
+
+
+        let fish = PIXI.Sprite.from(PIXI.Texture.from(video));
         fish.position.x =120;
         fish.position.y =120;
         pageContainer.addChild(fish);

@@ -2131,7 +2131,7 @@
 
     /*!
      * @amoy/filter-clear-background - v3.0.27
-     * Compiled Wed, 27 Nov 2019 07:37:10 UTC
+     * Compiled Wed, 27 Nov 2019 07:54:38 UTC
      *
      * @amoy/filter-clear-background is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -11198,9 +11198,17 @@
         pic_bg.scale.set(.8);
         pageContainer.addChild(pic_bg);
 
-        var texture = PIXI$1.Texture.from('assets/7023.mp4');
-        var fish = PIXI$1.Sprite.from(texture);
-        // fish.pivot = new PIXI.Point(.5, .5);
+        // let texture = PIXI.Texture.from('assets/7023.mp4');
+
+
+        var video = document.createElement("video");
+        video.preload = "auto";
+        video.loop = true;          // enable looping
+        video.src = "assets/7023.mp4";
+        video.autoplay = true;
+
+
+        var fish = PIXI$1.Sprite.from(PIXI$1.Texture.from(video));
         fish.position.x =120;
         fish.position.y =120;
         pageContainer.addChild(fish);
