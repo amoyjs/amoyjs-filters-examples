@@ -28,9 +28,14 @@ const manifest = [
     { name: 'house', url: 'assets/house.jpg' },
     { name: 'bird_small', url: 'assets/bird.png' },
     {name: 'shader', url:'assets/cross_process.frag'},
+    {name: 'waterfrag', url:'assets/watermaterial.frag'},
     {name:"cross", url:'assets/cross_processing.png'},
     {name:"girl", url:'assets/girl.jpg'},
     {name:"underwater", url:'assets/underwater.jpg'},
+    {name:"p17", url:'assets/17.png'},
+    {name:"gp17", url:'assets/gray_png_17.png'},
+    {name:"paopao", url:'assets/paopao5.jpeg'},
+    {name:"blind", url:'assets/blind_bg.jpeg'},
 ];
 
 

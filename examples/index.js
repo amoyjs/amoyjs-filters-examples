@@ -767,8 +767,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-gameboy-style - v3.0.21
-     * Compiled Thu, 21 Nov 2019 07:47:39 UTC
+     * @amoy/filter-gameboy-style - v3.0.24
+     * Compiled Tue, 03 Dec 2019 15:39:17 UTC
      *
      * @amoy/filter-gameboy-style is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -776,7 +776,7 @@
 
     var vertex$4 = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
 
-    var fragment$4 = "varying vec2 vTextureCoord;//passed from vect shader \n\nuniform sampler2D uSampler;// 2d texture\nuniform vec4 filterArea;\n\nuniform float uPosx;\nuniform float uPosy;\nuniform float uTime;\n\nvoid main(){\n\tvec2 fragCoord=vTextureCoord*filterArea.xy;\n\tvec2 uv=fragCoord.xy/filterArea.xy;\n\tconst float resolution=160.;//步长\n\tuv=floor(uv*resolution)/resolution;// 0 or 1\n\t\n\tvec3 color=texture2D(uSampler,uv).rgb;\n\t\n\tfloat intensity=(color.r+color.g+color.b)/3.;\n\tint index=int(intensity*4.);\n\n\tint r = index+0;\n\tint g = index+1;\n\tint b = index+2;\n\tif(index == 0){\n\t\tgl_FragColor=vec4(vec3(15./255., 56./255., 15./255.),1.);\n\t}else if(index == 1){\n\t\tgl_FragColor=vec4(vec3(48./255., 98./255., 48./255.),1.);\n\t}else if(index == 2){\n\t\tgl_FragColor=vec4(vec3(139./255., 172./255., 15./255.),1.);\n\t}else{\n\t\tgl_FragColor=vec4(vec3(155./255., 188./255., 15./255.),1.);\n\t}\n}";
+    var fragment$4 = "varying vec2 vTextureCoord;//passed from vect shader \n\nuniform sampler2D uSampler;// 2d texture\nuniform vec4 filterArea;\n\nuniform float uPosx;\nuniform float uPosy;\nuniform float uTime;\n\nvoid main(){\n\tvec2 fragCoord=vTextureCoord*filterArea.xy;\n\tvec2 uv=fragCoord.xy/filterArea.xy;\n\tconst float resolution=160.;//步长\n\tuv=floor(uv*resolution)/resolution;// 0 or 1\n\t\n\tvec3 color=texture2D(uSampler,uv).rgb;\n\t\n\tfloat intensity=(color.r+color.g+color.b)/3.;\n\tint index=int(intensity*4.);\n\n\tif(index == 0){\n\t\tgl_FragColor=vec4(vec3(15./255., 56./255., 15./255.),1.);\n\t}else if(index == 1){\n\t\tgl_FragColor=vec4(vec3(48./255., 98./255., 48./255.),1.);\n\t}else if(index == 2){\n\t\tgl_FragColor=vec4(vec3(139./255., 172./255., 15./255.),1.);\n\t}else{\n\t\tgl_FragColor=vec4(vec3(155./255., 188./255., 15./255.),1.);\n\t}\n}";
 
     /**
      *
@@ -1297,8 +1297,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-fluid - v3.0.24
-     * Compiled Wed, 27 Nov 2019 03:13:09 UTC
+     * @amoy/filter-fluid - v3.0.29
+     * Compiled Tue, 03 Dec 2019 15:46:54 UTC
      *
      * @amoy/filter-fluid is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -1786,14 +1786,14 @@
          * Override existing apply method in PIXI.Filter
          * @private
          */
-        AmoyFluidFilter.prototype.apply = function apply (filterManager, input, output) {
+        AmoyFluidFilter.prototype.apply = function apply (filterManager, input, output, clear) {
             var renderTarget = filterManager.getFilterTexture();
-            var renderTarget1 = filterManager.getFilterTexture(input);
+            var renderTarget1 = filterManager.getFilterTexture();
 
             this._blurFilter.apply(filterManager, input, renderTarget, true);
             this._colFilter.apply(filterManager, renderTarget, renderTarget1, true);
 
-            filterManager.applyFilter(this, renderTarget1, output, false);
+            filterManager.applyFilter(this, renderTarget1, output, clear);
 
             filterManager.returnFilterTexture(renderTarget1);
             filterManager.returnFilterTexture(renderTarget);
@@ -2130,8 +2130,8 @@
     }(core.Filter));
 
     /*!
-     * @amoy/filter-clear-background - v3.0.27
-     * Compiled Wed, 27 Nov 2019 07:54:38 UTC
+     * @amoy/filter-clear-background - v3.0.28
+     * Compiled Tue, 03 Dec 2019 15:39:17 UTC
      *
      * @amoy/filter-clear-background is licensed under the MIT License.
      * http://www.opensource.org/licenses/mit-license
@@ -2147,14 +2147,14 @@
      * @see {@link https://www.npmjs.com/package/@amoy/filters}
      * @extends PIXI.Filter
      * @memberof AMOY.filters
-     * @param {number} [posx=10.0] light  x position
-     * @param {number} [posy=10.0] light  y position
+     * @param {object} [{r:1.0, g:0, b:0}] default color for clear
+     * @param {number} [offset=5.0] the color offset range [0, 20]
      */
 
     var AmoyClearBackgroundFilter = /*@__PURE__*/(function (Filter) {
         function AmoyClearBackgroundFilter(color, offset) {
             if ( color === void 0 ) { color={r:1.0, g:0, b:0}; }
-            if ( offset === void 0 ) { offset=0.15; }
+            if ( offset === void 0 ) { offset=5.; }
 
             Filter.call(this, vertex$g, fragment$g);
             // sub class
@@ -2207,6 +2207,164 @@
         Object.defineProperties( AmoyClearBackgroundFilter.prototype, prototypeAccessors );
 
         return AmoyClearBackgroundFilter;
+    }(core.Filter));
+
+    /*!
+     * @amoy/filter-warhol - v3.0.24
+     * Compiled Tue, 03 Dec 2019 15:39:17 UTC
+     *
+     * @amoy/filter-warhol is licensed under the MIT License.
+     * http://www.opensource.org/licenses/mit-license
+     */
+
+    var vertex$h = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
+
+    var fragment$h = "varying vec2 vTextureCoord;//passed from vect shader \n\nuniform vec4 filterArea;\nuniform sampler2D uSampler;// 2d texture\n\n\nvoid main(void)\n{\n    vec3 col = texture2D(uSampler, vTextureCoord).bgr;\n    float y = 0.3 *col.r + 0.59 * col.g + 0.11 * col.b;\n    y = y < 0.3 ? 0.0 : (y < 0.6 ? 0.5 : 1.0);\n    if (y == 0.5)\n        col = vec3(0.8, 0.0, 0.0);\n    else if (y == 1.0)\n        col = vec3(0.9, 0.9, 0.0);\n    else\n        col = vec3(0.0, 0.0, 0.0);\n        \n    gl_FragColor.a = 1.0;\n    gl_FragColor.rgb = col;\n\n}";
+
+    /**
+     * @class
+     * @see {@link https://www.npmjs.com/package/@amoy/filter-Warhol}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters}
+     * @extends PIXI.Filter
+     * @memberof AMOY.filters
+     * @param {number} [posx=10.0] light  x position
+     * @param {number} [posy=10.0] light  y position
+     */
+
+    var AmoyWarholFilter = /*@__PURE__*/(function (Filter) {
+        function AmoyWarholFilter() {
+            Filter.call(this, vertex$h, fragment$h);
+            // sub class
+        }
+
+        if ( Filter ) { AmoyWarholFilter.__proto__ = Filter; }
+        AmoyWarholFilter.prototype = Object.create( Filter && Filter.prototype );
+        AmoyWarholFilter.prototype.constructor = AmoyWarholFilter;
+
+        /**
+         * Override existing apply method in PIXI.Filter
+         * @private
+         */
+        AmoyWarholFilter.prototype.apply = function apply (filterManager, input, output, clear) {
+            filterManager.applyFilter(this, input, output, clear);
+        };
+
+        return AmoyWarholFilter;
+    }(core.Filter));
+
+    /*!
+     * @amoy/filter-colorblind - v3.0.29
+     * Compiled Wed, 04 Dec 2019 07:31:38 UTC
+     *
+     * @amoy/filter-colorblind is licensed under the MIT License.
+     * http://www.opensource.org/licenses/mit-license
+     */
+
+    var vertex$i = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
+
+    var fragment$i = "varying vec2 vTextureCoord;//passed from vect shader\n\nuniform vec4 filterArea;\nuniform sampler2D uSampler;// 2d texture\nuniform float m[20];\n\nfloat fu(float n){\n    return(n<0.?0.:(n<1.?n:1.));\n}\n\nvec4 colorMatrix(vec4 o){\n    float r=((o.r*m[0])+(o.g*m[1])+(o.b*m[2])+(o.a*m[3])+m[4]);\n    float g=((o.r*m[5])+(o.g*m[6])+(o.b*m[7])+(o.a*m[8])+m[9]);\n    float b=((o.r*m[10])+(o.g*m[11])+(o.b*m[12])+(o.a*m[13])+m[14]);\n    float a=((o.r*m[15])+(o.g*m[16])+(o.b*m[17])+(o.a*m[18])+m[19]);\n    \n    return vec4(fu(r),fu(g),fu(b),fu(a));\n    \n}\n\nvoid main(void)\n{\n    vec4 col=texture2D(uSampler,vTextureCoord);\n    \n    gl_FragColor=colorMatrix(col);\n    \n}";
+
+    var AMOY_CLORBLINDE_TYPE_ENUM = {
+        Protanopia:1,
+        Protanomaly:2,
+        Deuteranopia:3,
+        Deuteranomaly:4,
+        Tritanopia:5,
+        Tritanomaly:6,
+        Achromatopsia:7,
+        Achromatomaly:8
+    };
+
+    var Protanopia = [0.567,0.433,0,0,0, 0.558,0.442,0,0,0, 0,0.242,0.758,0,0, 0,0,0,1,0, 0,0,0,0,1];
+
+    var Protanomaly= [0.817,0.183,0,0,0, 0.333,0.667,0,0,0, 0,0.125,0.875,0,0, 0,0,0,1,0, 0,0,0,0,1];
+
+    var Deuteranopia= [0.625,0.375,0,0,0, 0.7,0.3,0,0,0, 0,0.3,0.7,0,0, 0,0,0,1,0, 0,0,0,0,1];
+
+    var Deuteranomaly = [0.8,0.2,0,0,0, 0.258,0.742,0,0,0, 0,0.142,0.858,0,0, 0,0,0,1,0, 0,0,0,0,1];
+
+    var Tritanopia = [0.95,0.05,0,0,0, 0,0.433,0.567,0,0, 0,0.475,0.525,0,0, 0,0,0,1,0, 0,0,0,0,1];
+
+    var Tritanomaly = [0.967,0.033,0,0,0, 0,0.733,0.267,0,0, 0,0.183,0.817,0,0, 0,0,0,1,0, 0,0,0,0,1];
+
+    var Achromatopsia = [0.299,0.587,0.114,0,0, 0.299,0.587,0.114,0,0, 0.299,0.587,0.114,0,0, 0,0,0,1,0, 0,0,0,0,1];
+
+    var Achromatomaly = [0.618,0.320,0.062,0,0, 0.163,0.775,0.062,0,0, 0.163,0.320,0.516,0,0,0,0,0,1,0,0,0,0,0];
+
+    /**
+     * @class
+     * @see {@link https://www.npmjs.com/package/@amoy/filter-Warhol}
+     * @see {@link https://www.npmjs.com/package/@amoy/filters}
+     * @extends PIXI.Filter
+     * @memberof AMOY.filters
+     */
+
+    var AmoyColorblindFilter = /*@__PURE__*/(function (Filter) {
+        function AmoyColorblindFilter() {
+            Filter.call(this, vertex$i, fragment$i);
+            // sub class
+            this.blindType = AMOY_CLORBLINDE_TYPE_ENUM.Protanopia;
+        }
+
+        if ( Filter ) { AmoyColorblindFilter.__proto__ = Filter; }
+        AmoyColorblindFilter.prototype = Object.create( Filter && Filter.prototype );
+        AmoyColorblindFilter.prototype.constructor = AmoyColorblindFilter;
+
+        var prototypeAccessors = { blindType: { configurable: true } };
+
+        /**
+         * Override existing apply method in PIXI.Filter
+         * @private
+         */
+        AmoyColorblindFilter.prototype.apply = function apply (filterManager, input, output, clear) {
+            filterManager.applyFilter(this, input, output, clear);
+        };
+
+        prototypeAccessors.blindType.set = function (value){
+            this._blindType = value;
+            switch(this._blindType) {
+                case AMOY_CLORBLINDE_TYPE_ENUM.Protanopia:{
+                    this.uniforms.m = Protanopia;
+                    break;
+                }
+                case AMOY_CLORBLINDE_TYPE_ENUM.Protanomaly:{
+                    this.uniforms.m = Protanomaly;
+                    break;
+                }
+                case AMOY_CLORBLINDE_TYPE_ENUM.Tritanopia:{
+                    this.uniforms.m = Tritanopia;
+                    break;
+                }
+                case AMOY_CLORBLINDE_TYPE_ENUM.Tritanomaly:{
+                    this.uniforms.m = Tritanomaly;
+                    break;
+                }
+                case AMOY_CLORBLINDE_TYPE_ENUM.Deuteranopia:{
+                    this.uniforms.m = Deuteranopia;
+                    break;
+                }
+                case AMOY_CLORBLINDE_TYPE_ENUM.Deuteranomaly:{
+                    this.uniforms.m = Deuteranomaly;
+                    break;
+                }
+                case AMOY_CLORBLINDE_TYPE_ENUM.Achromatopsia:{
+                    this.uniforms.m = Achromatopsia;
+                    break;
+                }
+                case AMOY_CLORBLINDE_TYPE_ENUM.Achromatomaly:{
+                    this.uniforms.m = Achromatomaly;
+                    break;
+                }
+            }
+        };
+
+        prototypeAccessors.blindType.get = function (){
+            return this._blindType;
+        };
+
+        Object.defineProperties( AmoyColorblindFilter.prototype, prototypeAccessors );
+
+        return AmoyColorblindFilter;
     }(core.Filter));
 
     /*!
@@ -10760,12 +10918,23 @@
 
         // let filter = new PIXI.filters.BlurFilter(15);
         // let cfilter = new PIXI.filters.ColorMatrixFilter();
-        // cfilter.matrix = [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 100, -12];
-        // pageContainer.filters =[filter, cfilter];
+        // cfilter.matrix = [1, 0, 0, 0, 0, 0, .00, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 100, -12];
+        var cfilter1 = new PIXI$1.filters.ColorMatrixFilter();
+        //0.0, 0.35, 0.5
+        cfilter1.matrix =   [0, 0, 0, 0, 0, 0, .35, 0, 0, 0, 0, 0, .5, 0, 0, 0, 0, 0, 1, 0];
+
+
+        var filter2 = new PIXI$1.Filter(null, app.resources.waterfrag.data);
+        filter2.uniforms.uTime=100.0;
+        // pageContainer.filters =[filter, cfilter, cfilter1];
 
         var filter= new AmoyFluidFilter();
-        pageContainer.filters =[filter];
+        pageContainer.filters =[filter, filter2];
         this.filter = filter;
+
+        app.events.on('animate', function() {
+            filter2.uniforms.uTime +=0.02;
+        });
 
         // //-----mattjs-------//
         var engine,
@@ -11200,7 +11369,6 @@
 
         // let texture = PIXI.Texture.from('assets/7023.mp4');
 
-
         var video = document.createElement("video");
         video.preload = "auto";
         video.loop = true;          // enable looping
@@ -11233,6 +11401,72 @@
         this.scene.parent.removeChild(this.scene);
     };
 
+    var WarholPhotoExample = function WarholPhotoExample(app){
+        this.app = app;
+        this.app.example = this;
+            
+        var scene = new PIXI$1.Container();
+
+        var pageContainer = new PIXI$1.Container();
+
+        var pic = PIXI$1.Sprite.from(app.resources.paopao.texture);
+        pageContainer.addChild(pic);
+        // pic.scale.set(.2)
+            
+        scene.addChild(pageContainer);
+        
+        var w = pic.width;
+        var h = pic.height;
+
+        this.scene = scene;
+
+
+        app.stage.addChild(this.scene);
+        app.renderer.resize(w, h);
+        app.setAppViewAndRender(w,h);
+
+        var filter1 = new AmoyWarholFilter();
+
+        pageContainer.filters =[filter1];
+    };
+
+    WarholPhotoExample.prototype.destroy = function destroy (){
+        this.scene.parent.removeChild(this.scene);
+    };
+
+    var ColorblindExample = function ColorblindExample(app){
+        this.app = app;
+        this.app.example = this;
+            
+        var scene = new PIXI$1.Container();
+
+        var pageContainer = new PIXI$1.Container();
+
+        var pic = PIXI$1.Sprite.from(app.resources.blind.texture);
+        pageContainer.addChild(pic);
+        // pic.scale.set(.2)
+            
+        scene.addChild(pageContainer);
+        
+        var w = pic.width;
+        var h = pic.height;
+
+        this.scene = scene;
+
+
+        app.stage.addChild(this.scene);
+        app.renderer.resize(w, h);
+        app.setAppViewAndRender(w,h);
+
+        var filter1 = new AmoyColorblindFilter();
+
+        pageContainer.filters =[filter1];
+    };
+
+    ColorblindExample.prototype.destroy = function destroy (){
+        this.scene.parent.removeChild(this.scene);
+    };
+
 
 
     var examples = /*#__PURE__*/Object.freeze({
@@ -11256,7 +11490,9 @@
         MagnifyExample: MagnifyExample,
         FishEyeExample: FishEyeExample,
         BarrelDistortionExample: BarrelDistortionExample,
-        ClearBackgroundExample: ClearBackgroundExample
+        ClearBackgroundExample: ClearBackgroundExample,
+        WarholPhotoExample: WarholPhotoExample,
+        ColorblindExample: ColorblindExample
     });
 
     var EXAMPLES = [];
@@ -11287,9 +11523,14 @@
         { name: 'house', url: 'assets/house.jpg' },
         { name: 'bird_small', url: 'assets/bird.png' },
         {name: 'shader', url:'assets/cross_process.frag'},
+        {name: 'waterfrag', url:'assets/watermaterial.frag'},
         {name:"cross", url:'assets/cross_processing.png'},
         {name:"girl", url:'assets/girl.jpg'},
-        {name:"underwater", url:'assets/underwater.jpg'} ];
+        {name:"underwater", url:'assets/underwater.jpg'},
+        {name:"p17", url:'assets/17.png'},
+        {name:"gp17", url:'assets/gray_png_17.png'},
+        {name:"paopao", url:'assets/paopao5.jpeg'},
+        {name:"blind", url:'assets/blind_bg.jpeg'} ];
 
 
     // Load resources then add filters

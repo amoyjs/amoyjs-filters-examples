@@ -18,7 +18,6 @@ export default class ClearBackgroundExample {
 
         // let texture = PIXI.Texture.from('assets/7023.mp4');
 
-
         var video = document.createElement("video");
         video.preload = "auto";
         video.loop = true;              // enable looping

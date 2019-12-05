@@ -25,12 +25,23 @@ export default class FluidExample {
 
         // let filter = new PIXI.filters.BlurFilter(15);
         // let cfilter = new PIXI.filters.ColorMatrixFilter();
-        // cfilter.matrix = [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 100, -12];
-        // pageContainer.filters =[filter, cfilter];
+        // cfilter.matrix = [1, 0, 0, 0, 0, 0, .00, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 100, -12];
+        let cfilter1 = new PIXI.filters.ColorMatrixFilter();
+        //0.0, 0.35, 0.5
+        cfilter1.matrix =   [0, 0, 0, 0, 0, 0, .35, 0, 0, 0, 0, 0, .5, 0, 0, 0, 0, 0, 1, 0];
+
+
+        let filter2 = new PIXI.Filter(null, app.resources.waterfrag.data);
+        filter2.uniforms.uTime=100.0;
+        // pageContainer.filters =[filter, cfilter, cfilter1];
 
         let filter= new AmoyFluidFilter();
-        pageContainer.filters =[filter];
+        pageContainer.filters =[filter, filter2];
         this.filter = filter;
+
+        app.events.on('animate', function() {
+            filter2.uniforms.uTime +=0.02;
+        });
 
         // //-----mattjs-------//
         let engine,
